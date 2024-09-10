@@ -1,0 +1,15 @@
+<!-- main Atropos container (required), add your custom class here -->
+<div [id]="'atropos-' + index">
+  <!-- scale container (required) -->
+  <div class="atropos-scale">
+    <!-- rotate container (required) -->
+    <div class="atropos-rotate">
+      <!-- inner container (required) -->
+      <div class="atropos-inner rounded-xl">
+        <img class="rounded-xl" [src]="juego.imagen" [alt]="juego.nombre">
+        <!-- put your custom content here -->
+      </div>
+    </div>
+  </div>
+</div>
+<h3 class="pt-3">{{ juego.nombre }}</h3>

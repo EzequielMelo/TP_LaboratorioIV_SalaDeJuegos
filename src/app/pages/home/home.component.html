@@ -1,0 +1,9 @@
+<div
+  class="flex min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
+  <section
+    class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 space-y-8 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-16 md:space-y-0">
+    <div class="mb-4 w-60 lg:w-52 text-center text-slate-100 text-xl" *ngFor="let juego of juegos; let i = index">
+      <app-game [juego]="juego" [index]="i"></app-game>
+    </div>
+  </section>
+</div>

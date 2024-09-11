@@ -1,13 +1,13 @@
 <header>
-  <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+  <nav class="bg-gray-800 border-gray-200 px-4 lg:px-6 py-2.5 ">
     <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
       <a routerLink="home" class="flex items-center">
         <img src="favicon.png" class="mr-3 h-6 sm:h-9" alt="Site-Logo" />
-        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Juegoteca</span>
+        <span class="self-center text-xl font-semibold whitespace-nowrap text-white">Juegoteca</span>
       </a>
       <div class="flex items-center lg:order-2">
         <button routerLink="login"
-          class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
+          class="text-white dark:text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 hover:bg-gray-700 focus:outline-none focus:ring-gray-800">
           Login
         </button>
       </div>
@@ -17,20 +17,20 @@
 
 <router-outlet />
 
-<footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+<footer class="p-4 bg-gray-800 md:p-8 lg:p-10">
   <div class="mx-auto max-w-screen-xl text-center">
-    <a routerLink="home" class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
+    <a routerLink="home" class="flex justify-center items-center text-2xl font-semibold text-white">
       <img src="favicon.png" class="mr-2 h-8" alt="Site-Logo" />
       Juegoteca
     </a>
-    <p class="my-6 text-gray-500 dark:text-gray-400">Trabajo practico de Ezequiel Melo para la UTN(Universidad
+    <p class="my-6 text-gray-400">Trabajo practico de Ezequiel Melo para la UTN(Universidad
       Tecnologica Nacional) Laboratorio IV.</p>
-    <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+    <ul class="flex flex-wrap justify-center items-center mb-6 text-white">
       <li>
         <a routerLink="about-me" class="mr-4 hover:underline md:mr-6 ">Quien Soy</a>
       </li>
     </ul>
-    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024-2024 <a
-        href="https://github.com/EzequielMelo" class="hover:underline">EzzMellow™</a>. All Rights Reserved.</span>
+    <span class="text-sm sm:text-center text-gray-400">© 2024-2024 <a href="https://github.com/EzequielMelo"
+        class="hover:underline">EzzMellow™</a>. All Rights Reserved.</span>
   </div>
 </footer>

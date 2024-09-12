@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/sala-de-juegos/browser",
+    "public": "dist/tp1-laboratorio-iv/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {

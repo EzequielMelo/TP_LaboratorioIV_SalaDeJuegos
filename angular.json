@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TP1-Laboratorio-IV": {
+    "tp1-laboratorio-iv": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "TP1-Laboratorio-IV:build:production"
+              "buildTarget": "tp1-laboratorio-iv:build:production"
             },
             "development": {
-              "buildTarget": "TP1-Laboratorio-IV:build:development"
+              "buildTarget": "tp1-laboratorio-iv:build:development"
             }
           },
           "defaultConfiguration": "development"

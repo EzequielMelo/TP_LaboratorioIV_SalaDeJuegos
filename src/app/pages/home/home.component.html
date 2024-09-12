@@ -4,9 +4,15 @@
     <!-- Carousel wrapper -->
     <div class="relative h-56 overflow-hidden md:h-[34rem]">
       <!-- Item 1 -->
-      <div class="hidden duration-500 ease-in-out" data-carousel-item>
+      <div class="hidden duration-500 absolute inset-0 transition-all transform translate-x-0 z-20 ease-in-out"
+        data-carousel-item>
         <img src="preguntados-home.jpg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
           alt="...">
+        <div class="relative top-500 top-1/2 px-4 py-2 opacity-100 ">
+          <h2 class="text-xl text-white font-bold text-center ">Text 1 here</h2>
+          <h2 class="text-xl text-white font-bold text-center ">Text 2 here</h2>
+
+        </div>
       </div>
       <!-- Item 2 -->
       <div class="hidden duration-500 ease-in-out" data-carousel-item="active">
@@ -50,8 +56,10 @@
 
   <section
     class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 space-y-8 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-16 md:space-y-0 lg:my-10">
-    <div class="mb-4 w-60 lg:w-52 text-center text-slate-100 text-xl" *ngFor="let juego of juegos; let i = index">
-      <app-game [juego]="juego" [index]="i"></app-game>
+    @for(juego of juegos; track $index) {
+    <div class="mb-4 w-60 lg:w-52 text-center text-slate-100 text-xl">
+      <app-game [juego]="juego" [index]="$index"></app-game>
     </div>
+    }
   </section>
 </div>

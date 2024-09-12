@@ -20,15 +20,7 @@ export class GameComponent implements AfterViewInit {
       el: `#${atroposId}`,
       activeOffset: 80,
       shadowScale: 1.10,
-      onEnter() {
-        console.log('Enter');
-      },
-      onLeave() {
-        console.log('Leave');
-      },
-      onRotate(x, y) {
-        console.log('Rotate', x, y);
-      }
+      shadow: true
     });
   }
 }

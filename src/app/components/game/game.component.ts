@@ -10,7 +10,7 @@ import 'atropos/css'
   styleUrl: './game.component.css'
 })
 export class GameComponent implements AfterViewInit {
-  @Input() juego: any;
+  @Input() game: any;
   @Input() index!: number;
 
   ngAfterViewInit(): void {
@@ -18,8 +18,8 @@ export class GameComponent implements AfterViewInit {
 
     const myAtropos = Atropos({
       el: `#${atroposId}`,
-      activeOffset: 80,
-      shadowScale: 1.10,
+      activeOffset: 20,
+      shadowScale: 1.05,
       shadow: true
     });
   }

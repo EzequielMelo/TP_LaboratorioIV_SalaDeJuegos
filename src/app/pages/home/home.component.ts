@@ -1,26 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GameComponent } from './game/game.component';
+import { GameComponent } from '../../components/game/game.component';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
 import { CommonModule } from '@angular/common';
-import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, GameComponent, CommonModule],
+  imports: [RouterOutlet, GameComponent, CarouselComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
-  ngOnInit(): void {
-    initFlowbite();
-  }
+  carouselGames = [
+    { name: 'Preguntados', image: 'preguntados-home.jpg' },
+    { name: 'Ahorcado', image: 'hangmancarousel.jpg' },
+    { name: 'Mayor o Menor', image: 'higherorlower.jpg' },
+  ];
 
-  juegos = [
-    { nombre: 'Ahorcado', imagen: 'ahorcado2.jpg' },
-    { nombre: 'Mayor o Menor', imagen: 'mayoromenor2.jpg' },
-    { nombre: 'Preguntados', imagen: 'preguntados.jpeg' },
-    { nombre: 'Unnamed', imagen: 'unnamed.jpg' },
+  games = [
+    { name: 'Ahorcado', image: 'ahorcado2.jpg' },
+    { name: 'Mayor o Menor', image: 'mayoromenor2.jpg' },
+    { name: 'Preguntados', image: 'preguntados.jpeg' },
+    { name: 'Unnamed', image: 'unnamed.jpg' },
   ];
 }

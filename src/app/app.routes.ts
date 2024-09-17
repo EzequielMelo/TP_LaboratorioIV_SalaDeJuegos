@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { GameComponent } from './pages/home/game/game.component';
+import { GameComponent } from './components/game/game.component';
 
 
 export const routes: Routes = [
@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./pages/login/login.component').then((c) => c.LoginComponent),
+    loadComponent: () => import('./auth/login/login.component').then((c) => c.LoginComponent),
   },
   {
     path: 'about-me',

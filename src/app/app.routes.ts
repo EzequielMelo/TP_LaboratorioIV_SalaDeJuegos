@@ -11,16 +11,14 @@ export const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./pages/home/home.component').then((c) => c.HomeComponent),
-    children: [
-      {
-        path: '',
-        component: GameComponent,
-      }
-    ]
   },
   {
     path: 'login',
-    loadComponent: () => import('./auth/login/login.component').then((c) => c.LoginComponent),
+    loadComponent: () => import('./auth/auth.component').then((c) => c.AuthComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./auth/auth.component').then((c) => c.AuthComponent),
   },
   {
     path: 'about-me',

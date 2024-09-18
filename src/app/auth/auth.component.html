@@ -1,1 +1,8 @@
-<p>auth works!</p>
+<div
+  class="min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
+  @if (isLogin) {
+  <app-login />
+  }@else if(!isLogin){
+  <app-register />
+  }
+</div>

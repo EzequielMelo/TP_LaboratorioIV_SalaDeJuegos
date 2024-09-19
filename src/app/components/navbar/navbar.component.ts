@@ -27,7 +27,6 @@ export class NavbarComponent {
   logOut() {
     this.auth.signOut().then(() => {
       this.isLogged = false;
-      console.log("deslogueado")
     }).catch((error) => {
       console.log(error)
     })

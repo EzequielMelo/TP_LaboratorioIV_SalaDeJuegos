@@ -1,5 +1,50 @@
+<div class="relative"></div>
+<!-- Tu contenido principal va aquí -->
 <app-navbar />
 
 <router-outlet />
 
+
 <app-footer />
+
+<!-- Botón flotante del chat -->
+<div class="fixed bottom-5 right-5">
+  <button class="bg-blue-500 text-white rounded-full p-4 shadow-lg hover:bg-blue-600 focus:outline-none z-50"
+    (click)="toggleChat()">
+    💬
+  </button>
+</div>
+
+<!-- Ventana de chat -->
+@if (isChatOpen) {
+<div class="fixed bottom-20 right-5 bg-white shadow-lg rounded-lg w-80 p-4 border border-gray-300 z-50">
+  <div class="flex justify-between items-center border-b pb-2">
+    <h2 class="text-lg font-bold">Chat</h2>
+    <button class="text-gray-600 hover:text-gray-900 focus:outline-none" (click)="toggleChat()">
+      ✖
+    </button>
+  </div>
+
+  <div class="mt-4">
+    <!-- Aquí mostrarás el chat o el formulario para enviar mensajes -->
+    <div class="space-y-4">
+      @for (message of messages; track $index) {
+      <div class="bg-gray-100 p-2 rounded">
+        <p class="text-sm text-gray-700"><strong>{{ message.name }}:</strong> {{ message.message }}</p>
+        <p class="text-xs text-gray-500">{{ message.date }}</p>
+      </div>
+
+      }
+    </div>
+    <!-- Campo para enviar el mensaje -->
+    <div class="mt-4">
+      <input type="text" [(ngModel)]="newMessage" placeholder="Escribe un mensaje..."
+        class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+        (keydown.enter)="sendMessage()">
+      <button class="bg-blue-500 text-white rounded p-2 mt-2 w-full hover:bg-blue-600" (click)="sendMessage()">
+        Enviar
+      </button>
+    </div>
+  </div>
+</div>
+}

@@ -1,6 +1,6 @@
+import { AuthService } from './../../services/auth/auth.service';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -11,25 +11,16 @@ import { Auth } from '@angular/fire/auth';
 })
 
 export class NavbarComponent {
-  isLogged: boolean = false;
-
-  private auth = inject(Auth);
-  //private router = inject(Router);
+  user: any = null;
+  protected authService = inject(AuthService)
 
   ngOnInit() {
-    this.auth.onAuthStateChanged((auth) => {
-      if (auth?.email) {
-        this.isLogged = true;
-      }
-    })
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   logOut() {
-    this.auth.signOut().then(() => {
-      this.isLogged = false;
-    }).catch((error) => {
-      console.log(error)
-    })
+    this.authService.logOut();
   }
-
 }

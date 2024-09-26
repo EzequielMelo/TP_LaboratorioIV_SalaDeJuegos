@@ -1,31 +1,49 @@
-import { Injectable } from '@angular/core';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+import { Auth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, Unsubscribe } from '@angular/fire/auth';
+import { ErrorHandlerService } from '../error-handler/error-handler.service';
+import { from, catchError, throwError, tap, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private userSubject = new BehaviorSubject<User | null>(null);
+  public user$ = this.userSubject.asObservable();
+  authSubscription?: Unsubscribe;
 
-  constructor(private auth: Auth, private router: Router) { }
+  private auth = inject(Auth)
+  private errorHandler = inject(ErrorHandlerService);
 
-  checkAuthState() {
-    return new Promise((resolve, reject) => {
-      onAuthStateChanged(this.auth, (user) => {
-        if (user?.email) {
-          resolve(true);  // Usuario autenticado
-        } else {
-          resolve(false); // No autenticado
-        }
-      });
-    });
+  constructor() {
+    this.authSubscription = this.auth.onAuthStateChanged((auth) => {
+      if (auth?.email) {
+        this.userSubject.next(auth);
+      }
+      else {
+        this.userSubject.next(null);
+      }
+    })
   }
 
-  redirectIfAuthenticated() {
-    this.checkAuthState().then((isAuthenticated) => {
-      if (isAuthenticated) {
-        this.router.navigateByUrl('');
-      }
-    });
+  login(email: string, password: string) {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      catchError((error) => {
+        // Si hay un error, lo manejamos
+        return throwError(() => this.errorHandler.handleAuthError(error));
+      })
+    );
+  }
+
+  register(email: string, password: string) {
+    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
+      catchError((error) => {
+        // Si hay un error, lo manejamos
+        return throwError(() => this.errorHandler.handleAuthError(error));
+      })
+    );
+  }
+
+  logOut() {
+    this.auth.signOut();
   }
 }

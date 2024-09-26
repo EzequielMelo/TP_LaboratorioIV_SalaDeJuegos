@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { ErrorHandlerService } from '../../services/error-handler/error-handler.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormValidationService } from '../../services/form-validation/form-validation.service';
 
@@ -18,15 +16,17 @@ export class RegisterComponent {
   registerForm!: FormGroup;
   errorMessage = "";
 
-  private auth = inject(Auth);
   private router = inject(Router);
-  private errorHandler = inject(ErrorHandlerService);
   private authService = inject(AuthService)
   private formBuilder = inject(FormBuilder)
   private validationService = inject(FormValidationService)
 
   ngOnInit() {
-    this.authService.redirectIfAuthenticated();
+    this.authService.user$.subscribe((respuesta) => {
+      if (respuesta != null) {
+        this.router.navigateByUrl('');
+      }
+    });
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, (control: AbstractControl) => this.validationService.validateEmail(control)]],
       password: ['', [Validators.required, (control: AbstractControl) => this.validationService.validatePassword(control)]]
@@ -36,13 +36,14 @@ export class RegisterComponent {
   register() {
     if (this.registerForm.valid) {
       const { email, password } = this.registerForm.value;
-      createUserWithEmailAndPassword(this.auth, email, password)
-        .then(() => {
+      this.authService.login(email, password).subscribe({
+        next: () => {
           this.router.navigateByUrl('');
-        })
-        .catch((error) => {
-          this.errorMessage = this.errorHandler.handleAuthError(error);
-        });
+        },
+        error: (errorMessage: string) => {
+          this.errorMessage = errorMessage;
+        }
+      });
     }
   }
 }

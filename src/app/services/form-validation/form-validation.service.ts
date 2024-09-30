@@ -22,4 +22,11 @@ export class FormValidationService {
     }
     return null;
   }
+
+  validateUsername(control: AbstractControl): ValidationErrors | null {
+    if (control.value.length < 4) {
+      return { invalidUsername: 'El nombre de usuario debe tener al menos 4 caracteres' };
+    }
+    return null;
+  }
 }

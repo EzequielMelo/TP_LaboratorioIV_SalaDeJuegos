@@ -22,26 +22,27 @@ export class RegisterComponent {
   private validationService = inject(FormValidationService)
 
   ngOnInit() {
-    this.authService.user$.subscribe((respuesta) => {
+    this.authService.authUser$.subscribe((respuesta) => {
       if (respuesta != null) {
         this.router.navigateByUrl('');
       }
     });
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, (control: AbstractControl) => this.validationService.validateEmail(control)]],
-      password: ['', [Validators.required, (control: AbstractControl) => this.validationService.validatePassword(control)]]
+      password: ['', [Validators.required, (control: AbstractControl) => this.validationService.validatePassword(control)]],
+      username: ['', [Validators.required, (control: AbstractControl) => this.validationService.validateUsername(control)]],
     });
   }
 
   register() {
     if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
-      this.authService.login(email, password).subscribe({
+      const { username, email, password } = this.registerForm.value;
+      this.authService.register(username, email, password).subscribe({
         next: () => {
           this.router.navigateByUrl('');
         },
-        error: (errorMessage: string) => {
-          this.errorMessage = errorMessage;
+        error: (err) => {
+          this.errorMessage = err;
         }
       });
     }

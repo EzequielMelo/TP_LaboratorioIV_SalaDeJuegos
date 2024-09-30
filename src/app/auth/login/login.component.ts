@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit() {
-    this.authService.user$.subscribe((respuesta) => {
+    this.authService.authUser$.subscribe((respuesta) => {
       if (respuesta != null) {
         this.router.navigateByUrl('');
       }

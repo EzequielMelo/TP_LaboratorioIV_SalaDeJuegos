@@ -1,1 +1,48 @@
-<p>chat works!</p>
+<!-- Botón del chat -->
+<div class="fixed bottom-5 right-5">
+  <button class="bg-blue-500 text-white rounded-full p-4 shadow-lg hover:bg-blue-600 focus:outline-none z-50"
+    (click)="toggleChat()">
+    💬
+  </button>
+</div>
+
+<!-- Ventana de chat -->
+@if (isChatOpen) {
+<div class="fixed bottom-20 right-5 bg-white shadow-lg rounded-lg w-80 p-4 border border-gray-300 z-50">
+  <div class="flex justify-between items-center border-b pb-2">
+    <h2 class="text-lg font-bold">Chat</h2>
+    <button class="text-gray-600 hover:text-gray-900 focus:outline-none" (click)="toggleChat()">
+      ✖
+    </button>
+  </div>
+
+  <div #messagesContainer class="mt-4 max-h-[400px] overflow-y-auto" (scroll)="onScroll()">
+    <div class="space-y-4 flex flex-col">
+      @for (message of chatMessage; track message) {
+      @if(message.user === userName){
+      <div class="bg-red-400 p-2 rounded flex flex-col max-w-[75%] min-w-[75%] justify-end self-end">
+        <p class="text-sm text-gray-700"><strong>{{ message.user }}</strong></p>
+        <p class="text-sm text-gray-700">{{ message.message }}</p>
+        <p class="text-xs text-gray-500 text-right">{{ message.time.toDate() | date:'h:mm a'}}</p>
+      </div>
+      }@else
+      {
+      <div class="bg-gray-100 p-2 rounded flex flex-col max-w-[75%] min-w-[75%]">
+        <p class="text-sm text-gray-700"><strong>{{ message.user }}</strong></p>
+        <p class="text-sm text-gray-700">{{ message.message }}</p>
+        <p class="text-xs text-gray-500 text-right">{{ message.time.toDate() | date:'h:mm a'}}</p>
+      </div>
+      }
+      }
+    </div>
+  </div>
+  <div class="mt-4">
+    <input type="text" [(ngModel)]="newMessage" placeholder="Escribe un mensaje..."
+      class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
+      (keydown.enter)="sendMessage()">
+    <button class="bg-blue-500 text-white rounded p-2 mt-2 w-full hover:bg-blue-600" (click)="sendMessage()">
+      Enviar
+    </button>
+  </div>
+</div>
+}

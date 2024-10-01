@@ -14,9 +14,9 @@ import { CommonModule } from '@angular/common';
 export class HomeComponent {
 
   carouselGames = [
-    { name: 'Preguntados', image: 'preguntados-home.jpg' },
-    { name: 'Ahorcado', image: 'hangmancarousel.jpg' },
-    { name: 'Mayor o Menor', image: 'higherorlower.jpg' },
+    { name: 'Preguntados', image: 'preguntados-home.jpg', url: '/preguntados' },
+    { name: 'Ahorcado', image: 'hangmancarousel.jpg', url: '/ahorcado' },
+    { name: 'Mayor o Menor', image: 'higherorlower.jpg', url: '/mayoromenor' },
   ];
 
   games = [

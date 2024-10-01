@@ -2,6 +2,7 @@ import { AuthService } from './../../services/auth/auth.service';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AvvvatarsComponent } from '@ngxpert/avvvatars';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-navbar',
@@ -24,6 +25,10 @@ export class NavbarComponent {
       this.userName = user?.userName;
     });
   };
+
+  ngAfterViewInit(): void {
+    initFlowbite();
+  }
 
   logOut() {
     this.authService.logOut();

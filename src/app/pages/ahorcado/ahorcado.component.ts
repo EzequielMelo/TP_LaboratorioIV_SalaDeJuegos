@@ -41,7 +41,6 @@ export class AhorcadoComponent {
       this.selectedLetters = []; // Reiniciar letras seleccionadas
       this.letterStatus = {}; // Reiniciar el estado de las letras
       this.letters.forEach(letter => this.letterStatus[letter] = 'not-selected');
-      console.log(this.receivedData)
     });
   }
 
@@ -77,7 +76,7 @@ export class AhorcadoComponent {
       if (this.errors >= this.maxErrors) {
         Swal.fire({
           title: "Perdiste",
-          text: "Quieres seguir jugando?",
+          html: "La palabra era: <strong>" + this.receivedData + "</strong><br>¿Quieres seguir jugando?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",

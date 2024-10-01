@@ -20,9 +20,9 @@ export class HomeComponent {
   ];
 
   games = [
-    { name: 'Ahorcado', image: 'ahorcado2.jpg' },
-    { name: 'Mayor o Menor', image: 'mayoromenor2.jpg' },
-    { name: 'Preguntados', image: 'preguntados.jpeg' },
-    { name: 'Unnamed', image: 'unnamed.jpg' },
+    { name: 'Ahorcado', image: 'ahorcado2.jpg', url: '/ahorcado' },
+    { name: 'Mayor o Menor', image: 'mayoromenor2.jpg', url: '/mayoromenor' },
+    { name: 'Preguntados', image: 'preguntados.jpeg', url: '/preguntados' },
+    { name: 'Unnamed', image: 'unnamed.jpg', url: '/preguntados' },
   ];
 }

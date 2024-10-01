@@ -8,7 +8,6 @@ import { AuthService } from '../../services/auth/auth.service';
 import { serverTimestamp } from '@angular/fire/firestore';
 import { UserClass } from '../../classes/user-class';
 
-
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -22,7 +21,6 @@ export class ChatComponent {
   newMessage = '';
   chatMessage: any[] = [];
   subscription: Subscription | null = null;
-  user: string | null = '';
   userName: string | null = null;
   private isAtBottom: boolean = true;
 
@@ -33,6 +31,8 @@ export class ChatComponent {
     const observable = this.db.getChatMsgs();
     this.subscription = observable.subscribe((resultado) => {
       this.chatMessage = resultado as ChatMessage[];
+      console.log(resultado)
+      this.scrollToBottom();
     });
     this.authService.userClass$.subscribe((userClass: UserClass | null) => {
       this.userName = userClass ? userClass.userName : null;
@@ -40,13 +40,17 @@ export class ChatComponent {
   }
 
   ngAfterViewChecked() {
-    if (this.isAtBottom) {
+    if (this.isAtBottom && this.isChatOpen) {
       this.scrollToBottom();
     }
   }
 
   toggleChat() {
     this.isChatOpen = !this.isChatOpen;
+    if (this.isChatOpen) {
+      // Usa setTimeout para esperar a que el DOM se renderice
+      setTimeout(() => this.scrollToBottom(), 0);
+    }
   }
 
   sendMessage() {
@@ -66,12 +70,22 @@ export class ChatComponent {
   }
 
   scrollToBottom() {
-    this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+    if (this.messagesContainer) {
+      try {
+        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+      } catch (err) {
+        console.error('Error while scrolling:', err);
+      }
+    }
   }
 
   onScroll() {
     const container = this.messagesContainer.nativeElement;
-    this.isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 5; // 10 es un margen para detectar si está cerca del fondo
+    this.isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 5; // margen para detectar si está cerca del fondo
+  }
+
+  trackByMessage(index: number, message: ChatMessage) {
+    return message.time ? message.time : index;
   }
 
   ngOnDestroy() {

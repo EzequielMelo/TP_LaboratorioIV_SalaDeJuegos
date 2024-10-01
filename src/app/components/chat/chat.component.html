@@ -18,31 +18,37 @@
 
   <div #messagesContainer class="mt-4 max-h-[400px] overflow-y-auto" (scroll)="onScroll()">
     <div class="space-y-4 flex flex-col">
-      @for (message of chatMessage; track message) {
+      @for (message of chatMessage; track $index) {
       @if(message.user === userName){
       <div class="bg-red-400 p-2 rounded flex flex-col max-w-[75%] min-w-[75%] justify-end self-end">
         <p class="text-sm text-gray-700"><strong>{{ message.user }}</strong></p>
         <p class="text-sm text-gray-700">{{ message.message }}</p>
-        <p class="text-xs text-gray-500 text-right">{{ message.time.toDate() | date:'h:mm a'}}</p>
+        <p class="text-xs text-gray-500 text-right">{{ message.time ? (message.time.toDate() | date:'h:mm a') : '' }}
+        </p>
       </div>
       }@else
       {
       <div class="bg-gray-100 p-2 rounded flex flex-col max-w-[75%] min-w-[75%]">
         <p class="text-sm text-gray-700"><strong>{{ message.user }}</strong></p>
         <p class="text-sm text-gray-700">{{ message.message }}</p>
-        <p class="text-xs text-gray-500 text-right">{{ message.time.toDate() | date:'h:mm a'}}</p>
+        <p class="text-xs text-gray-500 text-right">{{ message.time ? (message.time.toDate() | date:'h:mm a') : '' }}
+        </p>
       </div>
       }
       }
     </div>
   </div>
   <div class="mt-4">
+    @if (userName !== null) {
     <input type="text" [(ngModel)]="newMessage" placeholder="Escribe un mensaje..."
       class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
       (keydown.enter)="sendMessage()">
     <button class="bg-blue-500 text-white rounded p-2 mt-2 w-full hover:bg-blue-600" (click)="sendMessage()">
       Enviar
     </button>
+    }@else {
+    <p class="text-sm text-gray-700 text-center"><strong>Debes estar logueado para chatear</strong></p>
+    }
   </div>
 </div>
 }

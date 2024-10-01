@@ -25,6 +25,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/about-me/about-me.component').then((c) => c.AboutMeComponent),
   },
   {
+    path: 'ahorcado',
+    loadComponent: () => import('./pages/ahorcado/ahorcado.component').then((c) => c.AhorcadoComponent),
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found.component').then((c) => c.NotFoundComponent),
   }

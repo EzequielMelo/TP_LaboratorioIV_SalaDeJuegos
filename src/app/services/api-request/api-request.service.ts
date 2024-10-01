@@ -7,14 +7,15 @@ import { inject, Injectable } from '@angular/core';
 export class ApiRequestService {
   hhtp = inject(HttpClient)
 
-  apiUrl = "https://api.github.com/users/"
+  apiGithubUrl = "https://api.github.com/users/"
+  apiSpanishWordsUrl = "https://clientes.api.greenborn.com.ar/public-random-word?c=1"
 
   //datos: any = {};
 
   constructor() { }
 
   getUser(usuario: string) {
-    const peticion = this.hhtp.get(this.apiUrl + usuario, {
+    const peticion = this.hhtp.get(this.apiGithubUrl + usuario, {
       responseType: "json",
       params: {
         ejemplo: 'labo4',
@@ -30,6 +31,15 @@ export class ApiRequestService {
       this.datos = respuesta;
     })
     */
+  }
+
+  getWord() {
+    const peticion = this.hhtp.get(this.apiSpanishWordsUrl, {
+      responseType: "json",
+    });
+
+    /*Haciendo el return devolvemos la peticion sin ejecutar*/
+    return peticion;
   }
 
 }

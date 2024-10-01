@@ -5,7 +5,7 @@
     <!-- rotate container (required) -->
     <div class="atropos-rotate">
       <!-- inner container (required) -->
-      <div class="atropos-inner rounded-xl cursor-pointer">
+      <div class="atropos-inner rounded-xl cursor-pointer" (click)="redirect(game.url)">
         <img data-atropos-offset="1" class="rounded-xl" [src]="game.image" [alt]="game.name">
         <!-- put your custom content here -->
       </div>

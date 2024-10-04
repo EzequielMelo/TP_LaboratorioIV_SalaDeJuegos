@@ -29,6 +29,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/ahorcado/ahorcado.component').then((c) => c.AhorcadoComponent),
   },
   {
+    path: 'mayor-o-menor',
+    loadComponent: () => import('./pages/mayor-o-menor/mayor-o-menor.component').then((c) => c.MayorOMenorComponent),
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found.component').then((c) => c.NotFoundComponent),
   }

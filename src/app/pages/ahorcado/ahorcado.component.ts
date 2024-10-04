@@ -21,7 +21,7 @@ export class AhorcadoComponent {
   selectedLetters: string[] = [];
   letterStatus: { [key: string]: 'correct' | 'incorrect' | 'not-selected' } = {};
   errors: number = 0;
-  maxErrors: number = 6;
+  maxErrors: number = 8;
   hangmanImage: string = 'hangman0.png';
   start: boolean = false;
 

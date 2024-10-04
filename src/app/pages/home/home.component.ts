@@ -16,13 +16,13 @@ export class HomeComponent {
   carouselGames = [
     { name: 'Preguntados', image: 'preguntados-home.jpg', url: '/preguntados' },
     { name: 'Ahorcado', image: 'hangmancarousel.jpg', url: '/ahorcado' },
-    { name: 'Mayor o Menor', image: 'higherorlower.jpg', url: '/mayoromenor' },
+    { name: 'Mayor o Menor', image: 'higherorlower.jpg', url: '/mayor-o-menor' },
   ];
 
   games = [
     { name: 'Ahorcado', image: 'ahorcado2.jpg', url: '/ahorcado' },
-    { name: 'Mayor o Menor', image: 'mayoromenor2.jpg', url: '/mayoromenor' },
+    { name: 'Mayor o Menor', image: 'mayoromenor2.jpg', url: '/mayor-o-menor' },
     { name: 'Preguntados', image: 'preguntados.jpeg', url: '/preguntados' },
-    { name: 'Unnamed', image: 'unnamed.jpg', url: '/preguntados' },
+    { name: 'Unnamed', image: 'unnamed.jpg', url: '/arma-las-palabras' },
   ];
 }

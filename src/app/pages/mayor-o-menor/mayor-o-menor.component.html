@@ -1,0 +1,51 @@
+<div
+  class="flex min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
+  <div class="flex items-center justify-center mx-auto h-auto lg:py-0 w-full">
+    <div
+      class="flex flex-col justify-center items-center w-11/12 sm:w-11/12 md:w-2/3 min-h-[70vh] md:h-[70vh] z-51 shadow-lg rounded-md bg-game">
+      @if(start === false) {
+      <div class="flex items-center justify-center w-full h-full">
+        <button (click)="startGame()" class="bg-green-600 p-3 rounded-md text-white">Iniciar</button>
+      </div>
+      } @else if(start === true) {
+      <div class="flex flex-col w-full justify-end items-end">
+        @switch (lives) {
+        @case (3) {
+        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>❤️❤️❤️</strong></p>
+        }
+        @case (2) {
+        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>❤️❤️</strong></p>
+        }
+        @default {
+        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>❤️</strong></p>
+        }
+        }
+        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>Aciertos<br>{{successes}}</strong></p>
+      </div>
+
+      <div class="atropos my-atropos">
+        <!-- scale container (required) -->
+        <div class="atropos-scale">
+          <!-- rotate container (required) -->
+          <div class="atropos-rotate">
+            <!-- inner container (required) -->
+            <div class="atropos-inner rounded-3xl">
+              <img data-atropos-offset="1" class="h-80 rounded-3xl" [src]="currentCard.image" [alt]="currentCard.id">
+              <!-- put your custom content here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex space-x-4 mt-6">
+        <button (click)="checkGuess('mayor')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md">
+          Mayor
+        </button>
+        <button (click)="checkGuess('menor')" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-md">
+          Menor
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>

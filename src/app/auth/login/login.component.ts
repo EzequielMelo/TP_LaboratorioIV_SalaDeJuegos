@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
   usuarioPrueba() {
     this.loginForm.patchValue({
-      email: 'usuario@ejemplo.com',
+      email: 'ezzmellow@hotmail.com',
       password: '123456'
     });
   }

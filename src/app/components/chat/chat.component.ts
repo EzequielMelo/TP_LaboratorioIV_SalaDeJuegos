@@ -31,7 +31,6 @@ export class ChatComponent {
     const observable = this.db.getChatMsgs();
     this.subscription = observable.subscribe((resultado) => {
       this.chatMessage = resultado as ChatMessage[];
-      console.log(resultado)
       this.scrollToBottom();
     });
     this.authService.userClass$.subscribe((userClass: UserClass | null) => {

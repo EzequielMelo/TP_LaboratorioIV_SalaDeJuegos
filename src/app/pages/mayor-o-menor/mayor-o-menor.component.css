@@ -1,0 +1,5 @@
+.bg-game {
+  background-image: url('../../../../public/mayoromenorfondo.jpg');
+  background-size: cover;
+  background-position: center;
+}

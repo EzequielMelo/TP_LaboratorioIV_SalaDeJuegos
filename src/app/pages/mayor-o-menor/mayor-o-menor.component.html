@@ -24,20 +24,17 @@
       </div>
 
       <div class="atropos my-atropos">
-        <!-- scale container (required) -->
         <div class="atropos-scale">
-          <!-- rotate container (required) -->
           <div class="atropos-rotate">
-            <!-- inner container (required) -->
             <div class="atropos-inner rounded-3xl">
-              <img data-atropos-offset="1" class="h-80 rounded-3xl" [src]="currentCard.image" [alt]="currentCard.id">
-              <!-- put your custom content here -->
+              <img data-atropos-offset="1" class="rounded-3xl" ngSrc="{{currentCard.image}}" width="240" height="335"
+                [alt]="currentCard.id" priority>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex space-x-4 mt-6">
+      <div class=" flex space-x-4 mt-6">
         <button (click)="checkGuess('mayor')" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md">
           Mayor
         </button>

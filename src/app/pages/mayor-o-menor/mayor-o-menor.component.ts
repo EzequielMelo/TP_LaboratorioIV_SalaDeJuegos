@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common'
 import Swal from 'sweetalert2'
 import Atropos from 'atropos';
 import 'atropos/css'
@@ -6,7 +7,7 @@ import 'atropos/css'
 @Component({
   selector: 'app-mayor-o-menor',
   standalone: true,
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: './mayor-o-menor.component.html',
   styleUrl: './mayor-o-menor.component.css'
 })
@@ -149,5 +150,4 @@ export class MayorOMenorComponent {
   resetGame() {
     this.startGame();
   }
-
 }

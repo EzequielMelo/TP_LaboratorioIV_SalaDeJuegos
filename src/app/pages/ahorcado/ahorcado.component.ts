@@ -25,7 +25,7 @@ export class AhorcadoComponent {
   hangmanImage: string = 'hangman0.png';
   start: boolean = false;
 
-  apiRequest = inject(ApiRequestService);
+  private apiRequest = inject(ApiRequestService);
 
   ngOnInit() {
   }

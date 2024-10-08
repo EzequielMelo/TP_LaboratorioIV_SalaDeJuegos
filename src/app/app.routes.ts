@@ -33,6 +33,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/mayor-o-menor/mayor-o-menor.component').then((c) => c.MayorOMenorComponent),
   },
   {
+    path: 'preguntados',
+    loadComponent: () => import('./pages/preguntados/preguntados.component').then((c) => c.PreguntadosComponent),
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found.component').then((c) => c.NotFoundComponent),
   }

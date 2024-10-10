@@ -1,0 +1,10 @@
+.bg-game {
+  background-image: url('../../../../public/preguntados-background.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+.hidden {
+  display: none;
+  /* Oculta el elemento */
+}

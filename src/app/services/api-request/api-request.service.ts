@@ -13,50 +13,38 @@ export class ApiRequestService {
   apiQuizUrl = "https://api.quiz-contest.xyz/";
   apiKey = environment.apiQuiz.apiKey || '';
 
-  //datos: any = {};
-
-  constructor() { }
-
   getUser(usuario: string) {
-    const peticion = this.hhtp.get(this.apiGithubUrl + usuario, {
+    const petition = this.hhtp.get(this.apiGithubUrl + usuario, {
       responseType: "json",
       params: {
         ejemplo: 'labo4',
       },
     });
 
-    /*Haciendo el return devolvemos la peticion sin ejecutar*/
-    return peticion;
-
-    /*Con este metodo devolvemos la peticion ejecutada*/
-    /*
-    peticion.subscribe((respuesta) => {
-      this.datos = respuesta;
-    })
-    */
+    return petition;
   }
 
   getWord() {
-    const peticion = this.hhtp.get(this.apiSpanishWordsUrl, {
+    const petition = this.hhtp.get(this.apiSpanishWordsUrl, {
       responseType: "json",
     });
 
-    return peticion;
+    return petition;
   }
 
   getQuiz(limit: number, page: number, category: string) {
-    const peticion = this.hhtp.get(this.apiQuizUrl + "questions", {
+    const petition = this.hhtp.get(this.apiQuizUrl + "questions", {
       headers: {
         'Authorization': this.apiKey,
       },
       params: {
-        limit: limit.toString(), // Convertir a string
-        page: page.toString(),   // Convertir a string
-        category: category       // Se mantiene como string
+        limit: limit.toString(),
+        page: page.toString(),
+        category: category
       }
     });
 
-    return peticion;
+    return petition;
   }
 
 }

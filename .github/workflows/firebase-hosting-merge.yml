@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Node.js type definitions
+        run: npm install --save-dev @types/node
+
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 

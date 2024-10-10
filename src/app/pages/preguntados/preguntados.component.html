@@ -6,7 +6,9 @@
       @if(start === false) {
       <button (click)="startGame()" class="bg-green-600 p-3 rounded-md text-white">Iniciar</button>
       } @else if(start === true) {
-
+      @if (receivedData !== null) {
+      <p>{{receivedData}}</p>
+      }
       }
     </div>
   </div>

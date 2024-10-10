@@ -10,6 +10,7 @@ import { ApiRequestService } from '../../services/api-request/api-request.servic
 })
 export class PreguntadosComponent {
   start: boolean = false;
+  receivedData: any = {};
 
   private apiRequest = inject(ApiRequestService);
 
@@ -17,6 +18,7 @@ export class PreguntadosComponent {
     const request = this.apiRequest.getQuiz(5, 1, "geography");
     request.subscribe((response) => {
       console.log(response);
+      this.receivedData = response;
     }, (error) => {
       console.error("Error al obtener datos del quiz:", error);
     });

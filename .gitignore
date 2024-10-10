@@ -47,5 +47,5 @@ Thumbs.db
 .runtimeconfig.json
 
 # Tokens and security connections
-environments
+/src/environments/environment.development.ts
 #/src/app/environments

@@ -11,6 +11,7 @@ export class ApiRequestService {
   apiGithubUrl = "https://api.github.com/users/";
   apiSpanishWordsUrl = "https://clientes.api.greenborn.com.ar/public-random-word?c=1";
   apiQuizUrl = "https://api.quiz-contest.xyz/";
+  apiKey = environment.apiQuiz.apiKey || '';
 
   //datos: any = {};
 
@@ -46,7 +47,7 @@ export class ApiRequestService {
   getQuiz(limit: number, page: number, category: string) {
     const peticion = this.hhtp.get(this.apiQuizUrl + "questions", {
       headers: {
-        'Authorization': environment.apiQuiz.apiKey,
+        'Authorization': this.apiKey,
       },
       params: {
         limit: limit.toString(), // Convertir a string

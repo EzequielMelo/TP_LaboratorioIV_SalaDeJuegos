@@ -1,12 +1,13 @@
-.bg-game {
-  background-image: url('../../../../public/preguntados-background.jpeg');
-  background-size: cover;
-  background-position: center;
-}
-
-.hidden {
-  display: none;
-  /* Oculta el elemento */
+.bg-rayada {
+  background: repeating-linear-gradient(to bottom,
+      transparent 0px,
+      transparent 24px,
+      #4c73b1 25px),
+    linear-gradient(to right,
+      #f3f4f6 0.01px,
+      transparent 3px);
+  background-color: #f3f4f6;
+  /* Fondo color base */
 }
 
 #countdown {

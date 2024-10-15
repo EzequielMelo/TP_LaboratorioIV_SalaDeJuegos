@@ -37,6 +37,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/preguntados/preguntados.component').then((c) => c.PreguntadosComponent),
   },
   {
+    path: 'arma-las-palabras',
+    loadComponent: () => import('./pages/arma-las-palabras/arma-las-palabras.component').then((c) => c.ArmaLasPalabrasComponent),
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found.component').then((c) => c.NotFoundComponent),
   }

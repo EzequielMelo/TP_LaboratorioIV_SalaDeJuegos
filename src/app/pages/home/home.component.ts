@@ -23,6 +23,6 @@ export class HomeComponent {
     { name: 'Ahorcado', image: 'ahorcado2.jpg', url: '/ahorcado' },
     { name: 'Mayor o Menor', image: 'mayoromenor2.jpg', url: '/mayor-o-menor' },
     { name: 'Preguntados', image: 'preguntados.jpeg', url: '/preguntados' },
-    { name: 'Unnamed', image: 'unnamed.jpg', url: '/arma-las-palabras' },
+    { name: 'Arma las Palabras', image: 'arma-las-palabras.jpg', url: '/arma-las-palabras' },
   ];
 }

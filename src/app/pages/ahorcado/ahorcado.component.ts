@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { ApiRequestService } from '../../services/api-request/api-request.service';
 import { NgClass } from '@angular/common';
+import { ApiRequestService } from '../../services/api-request/api-request.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -26,8 +28,15 @@ export class AhorcadoComponent {
   start: boolean = false;
 
   private apiRequest = inject(ApiRequestService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   ngOnInit() {
+    this.authService.authUser$.subscribe((respuesta) => {
+      if (respuesta === null) {
+        this.router.navigateByUrl('');
+      }
+    });
   }
 
   startGame() {

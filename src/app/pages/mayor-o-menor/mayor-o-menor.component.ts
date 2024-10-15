@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common'
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 import Atropos from 'atropos';
 import 'atropos/css'
@@ -15,9 +17,11 @@ export class MayorOMenorComponent {
   start: boolean = false;
   currentCard: any;
   nextCard: any;
-  lives: number = 3; // Total de vidas del jugador
-  gameOver: boolean = false; // Estado del juego
+  lives: number = 3;
+  hearts: string[] = [];
+  gameOver: boolean = false;
   successes: number = 0;
+
   cards = [
     { id: 'hearts-A', image: 'Hearts-A.png', valor: 1 },
     { id: 'hearts-2', image: 'Hearts-2.png', valor: 2 },
@@ -77,9 +81,20 @@ export class MayorOMenorComponent {
   ];
 
   private atroposInitialized = false;
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  ngOnInit() {
+    this.authService.authUser$.subscribe((respuesta) => {
+      if (respuesta === null) {
+        this.router.navigateByUrl('');
+      }
+    });
+  }
 
   startGame() {
     this.lives = 3;
+    this.updateHearts();
     this.gameOver = false;
     this.currentCard = this.getRandomCard();
     this.nextCard = this.getRandomCard();
@@ -114,7 +129,7 @@ export class MayorOMenorComponent {
       this.nextCard = this.getRandomCard();
       this.successes += 1;
     } else {
-      this.lives -= 1;
+      this.loseLife();
       if (this.lives === 0) {
         this.endGame();
       }
@@ -149,5 +164,19 @@ export class MayorOMenorComponent {
 
   resetGame() {
     this.startGame();
+  }
+
+  updateHearts() {
+    this.hearts = [];
+    for (let i = 0; i < this.lives; i++) {
+      this.hearts.push('❤️');
+    }
+  }
+
+  loseLife() {
+    if (this.lives > 0) {
+      this.lives--;
+      this.updateHearts();
+    }
   }
 }

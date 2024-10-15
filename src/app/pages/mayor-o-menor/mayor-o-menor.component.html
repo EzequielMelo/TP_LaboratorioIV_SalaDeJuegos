@@ -9,17 +9,13 @@
       </div>
       } @else if(start === true) {
       <div class="flex flex-col w-full justify-end items-end">
-        @switch (lives) {
-        @case (3) {
-        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>❤️❤️❤️</strong></p>
-        }
-        @case (2) {
-        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>❤️❤️</strong></p>
-        }
-        @default {
-        <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>❤️</strong></p>
-        }
-        }
+        <div class="mr-4">
+          <p class="text-base md:text-xl text-black text-center"><strong>
+              @for (heart of hearts; track $index){
+              {{heart}}
+              }</strong>
+          </p>
+        </div>
         <p class="text-xl md:text-2xl text-white text-center mr-4"><strong>Aciertos<br>{{successes}}</strong></p>
       </div>
 

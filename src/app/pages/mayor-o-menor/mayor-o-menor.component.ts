@@ -1,7 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common'
-import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 import Atropos from 'atropos';
 import 'atropos/css'
@@ -81,16 +79,6 @@ export class MayorOMenorComponent {
   ];
 
   private atroposInitialized = false;
-  private authService = inject(AuthService);
-  private router = inject(Router);
-
-  ngOnInit() {
-    this.authService.authUser$.subscribe((respuesta) => {
-      if (respuesta === null) {
-        this.router.navigateByUrl('');
-      }
-    });
-  }
 
   startGame() {
     this.lives = 3;

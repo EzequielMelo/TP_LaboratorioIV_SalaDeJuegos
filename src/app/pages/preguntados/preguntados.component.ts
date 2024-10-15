@@ -1,8 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiRequestService } from '../../services/api-request/api-request.service';
-import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -12,7 +10,7 @@ import Swal from 'sweetalert2'
   templateUrl: './preguntados.component.html',
   styleUrls: ['./preguntados.component.css']
 })
-export class PreguntadosComponent {
+export class PreguntadosComponent implements OnDestroy {
   start: boolean = false;
   receivedData: any = {};
   currentQuestionIndex: number = 0;
@@ -42,21 +40,11 @@ export class PreguntadosComponent {
   ];
 
   private apiRequest = inject(ApiRequestService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
 
   constructor() {
     this.receivedData = { questions: [] };
     this.updateHearts();
     this.updateCircleAnimation();
-  }
-
-  ngOnInit() {
-    this.authService.authUser$.subscribe((respuesta) => {
-      if (respuesta === null) {
-        this.router.navigateByUrl('');
-      }
-    });
   }
 
   startGame() {

@@ -19,6 +19,7 @@ export class AboutMeComponent {
 
     request.subscribe((response) => {
       this.receivedData = response;
+      console.log(this.receivedData)
     })
   }
 

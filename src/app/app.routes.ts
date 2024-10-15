@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { GameComponent } from './components/game/game.component';
-
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -26,19 +25,19 @@ export const routes: Routes = [
   },
   {
     path: 'ahorcado',
-    loadComponent: () => import('./pages/ahorcado/ahorcado.component').then((c) => c.AhorcadoComponent),
+    loadComponent: () => import('./pages/ahorcado/ahorcado.component').then((c) => c.AhorcadoComponent), canActivate: [authGuard],
   },
   {
     path: 'mayor-o-menor',
-    loadComponent: () => import('./pages/mayor-o-menor/mayor-o-menor.component').then((c) => c.MayorOMenorComponent),
+    loadComponent: () => import('./pages/mayor-o-menor/mayor-o-menor.component').then((c) => c.MayorOMenorComponent), canActivate: [authGuard],
   },
   {
     path: 'preguntados',
-    loadComponent: () => import('./pages/preguntados/preguntados.component').then((c) => c.PreguntadosComponent),
+    loadComponent: () => import('./pages/preguntados/preguntados.component').then((c) => c.PreguntadosComponent), canActivate: [authGuard],
   },
   {
     path: 'arma-las-palabras',
-    loadComponent: () => import('./pages/arma-las-palabras/arma-las-palabras.component').then((c) => c.ArmaLasPalabrasComponent),
+    loadComponent: () => import('./pages/arma-las-palabras/arma-las-palabras.component').then((c) => c.ArmaLasPalabrasComponent), canActivate: [authGuard],
   },
   {
     path: '**',

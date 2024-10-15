@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -11,7 +9,7 @@ import Swal from 'sweetalert2'
   templateUrl: './arma-las-palabras.component.html',
   styleUrls: ['./arma-las-palabras.component.css']
 })
-export class ArmaLasPalabrasComponent implements OnInit, OnDestroy {
+export class ArmaLasPalabrasComponent implements OnDestroy {
   start: boolean = false;
   selectedLetters: string[] = [];
   possibleWords: string[] = [];
@@ -33,15 +31,7 @@ export class ArmaLasPalabrasComponent implements OnInit, OnDestroy {
     // Agregar más combinaciones aca
   ];
 
-  private authService = inject(AuthService);
-  private router = inject(Router);
-
-  ngOnInit() {
-    this.authService.authUser$.subscribe((respuesta) => {
-      if (respuesta === null) {
-        this.router.navigateByUrl('');
-      }
-    });
+  constructor() {
     this.updateCircleAnimation();
     this.updateHearts();
   }

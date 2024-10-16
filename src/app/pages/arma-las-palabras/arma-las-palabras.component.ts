@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-arma-las-palabras',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './arma-las-palabras.component.html',
-  styleUrls: ['./arma-las-palabras.component.css']
+  styleUrls: ['./arma-las-palabras.component.css'],
 })
 export class ArmaLasPalabrasComponent implements OnDestroy {
   start: boolean = false;
@@ -26,9 +26,50 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
   hearts: string[] = [];
 
   possibleGames = [
-    { letters: ['a', 'e', 'r', 'p', 't', 'u'], words: ['puerta', 'peru', 'pera', 'pure'] },
-    { letters: ['b', 'e', 'r', 'a', 's', 't'], words: ['besar', 'base', 'resta', 'arte'] }
-    // Agregar más combinaciones aca
+    {
+      letters: ['a', 'e', 'r', 'p', 't', 'u'],
+      words: [
+        'puerta',
+        'peru',
+        'pera',
+        'pure',
+        'arte',
+        'parte',
+        'pate',
+        'rap',
+        'ruta',
+        'taper',
+        'tape',
+      ],
+    },
+    {
+      letters: ['b', 'e', 'r', 'a', 's', 't'],
+      words: [
+        'besar',
+        'base',
+        'resta',
+        'arte',
+        'sabe',
+        'ser',
+        'sera',
+        'seta',
+        'bar',
+        'era',
+        'ares',
+      ],
+    },
+    {
+      letters: ['m', 'a', 'r', 'e'],
+      words: ['mar', 'era', 'rema', 'arme'],
+    },
+    {
+      letters: ['a', 'c', 'o', 's'],
+      words: ['caso', 'cosa', 'saco', 'osa'],
+    },
+    {
+      letters: ['a', 't', 'p', 'e'],
+      words: ['pate', 'tape', 'peta'],
+    },
   ];
 
   constructor() {
@@ -61,7 +102,7 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
         this.correctWordsCounter += 1;
         this.numberOfCorrectWords -= 1;
         if (this.numberOfCorrectWords === 0) {
-          this.endGame()
+          this.endGame();
         }
       } else {
         this.errorMessage = 'Ya ingresaste esta palabra.';
@@ -91,29 +132,37 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
   }
 
   endGame() {
-    let message: string = "Ronda terminada!<br>Conseguiste armar las: <strong>" + this.correctWords.length + "</strong> palabras correctas";
+    let message: string =
+      'Ronda terminada!<br>Conseguiste armar las: <strong>' +
+      this.correctWords.length +
+      '</strong> palabras correctas';
     clearInterval(this.intervalId);
     if (this.numberOfCorrectWords !== 0) {
       this.loseLife();
-      message = "Ronda terminada!<br>Conseguiste armar: <strong>" + this.correctWords.length + "</strong> palabra/s de: <strong>" + this.possibleWords.length + "</strong><br>perderas una vida"
+      message =
+        'Ronda terminada!<br>Conseguiste armar: <strong>' +
+        this.correctWords.length +
+        '</strong> palabra/s de: <strong>' +
+        this.possibleWords.length +
+        '</strong><br>perderas una vida';
     }
 
     if (this.lives > 0) {
       Swal.fire({
-        title: "Ronda Finalizada",
+        title: 'Ronda Finalizada',
         html: message,
-        icon: "success",
+        icon: 'success',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Seguir jugando!",
-        cancelButtonText: "No, salir",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Seguir jugando!',
+        cancelButtonText: 'No, salir',
       }).then((result) => {
         if (result.isDismissed) {
           this.start = false;
           this.correctWordsCounter = 0;
           this.numberOfCorrectWords = 0;
-          this.lives = 3
+          this.lives = 3;
         }
         if (result.isConfirmed) {
           this.startGame();
@@ -121,26 +170,29 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
       });
     } else {
       Swal.fire({
-        title: "Juego Finalizado",
-        html: "Juego terminado!<br>Conseguiste armar: <strong>" + this.correctWordsCounter + "</strong> palabras",
-        icon: "warning",
+        title: 'Juego Finalizado',
+        html:
+          'Juego terminado!<br>Conseguiste armar: <strong>' +
+          this.correctWordsCounter +
+          '</strong> palabras',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Seguir jugando!",
-        cancelButtonText: "No, salir",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Seguir jugando!',
+        cancelButtonText: 'No, salir',
       }).then((result) => {
         if (result.isDismissed) {
           this.start = false;
           this.correctWordsCounter = 0;
           this.numberOfCorrectWords = 0;
-          this.lives = 3
+          this.lives = 3;
         }
         if (result.isConfirmed) {
           this.startGame();
           this.correctWordsCounter = 0;
           this.numberOfCorrectWords = 0;
-          this.lives = 3
+          this.lives = 3;
         }
       });
     }

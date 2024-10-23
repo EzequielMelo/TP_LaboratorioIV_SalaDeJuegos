@@ -19,6 +19,7 @@ export class MayorOMenorComponent {
   hearts: string[] = [];
   gameOver: boolean = false;
   successes: number = 0;
+  nextCardImageLoaded: boolean = false; // Nueva variable para controlar si la imagen está cargada
 
   cards = [
     { id: 'hearts-A', image: 'Hearts-A.webp', valor: 1 },
@@ -85,9 +86,21 @@ export class MayorOMenorComponent {
     this.updateHearts();
     this.gameOver = false;
     this.currentCard = this.getRandomCard();
-    this.nextCard = this.getRandomCard();
+    this.loadNextCard();
     this.start = true;
-    this.atroposInitialized = false; // Resetear para inicializar Atropos de nuevo
+    this.atroposInitialized = false;
+  }
+
+  loadNextCard() {
+    this.nextCard = this.getRandomCard();
+    this.nextCardImageLoaded = false;
+
+    // Precargar la imagen
+    const img = new Image();
+    img.src = this.nextCard.image;
+    img.onload = () => {
+      this.nextCardImageLoaded = true;
+    };
   }
 
   ngAfterViewChecked(): void {
@@ -95,7 +108,7 @@ export class MayorOMenorComponent {
       const atroposElement = document.querySelector('.my-atropos');
       if (atroposElement) {
         this.initializeAtropos();
-        this.atroposInitialized = true; // Marcar que ya está inicializado
+        this.atroposInitialized = true;
       }
     }
   }
@@ -115,7 +128,7 @@ export class MayorOMenorComponent {
 
     if (userGuess === comparison) {
       this.currentCard = this.nextCard;
-      this.nextCard = this.getRandomCard();
+      this.loadNextCard(); // Precargar la siguiente carta nuevamente
       this.successes += 1;
     } else {
       this.loseLife();

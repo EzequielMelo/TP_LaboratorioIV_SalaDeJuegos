@@ -23,8 +23,10 @@
         <div class="atropos-scale">
           <div class="atropos-rotate">
             <div class="atropos-inner rounded-3xl">
+              @if (nextCardImageLoaded) {
               <img data-atropos-offset="1" class="rounded-3xl" ngSrc="{{currentCard.image}}" width="240" height="335"
                 [alt]="currentCard.id" priority>
+              }
             </div>
           </div>
         </div>

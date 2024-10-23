@@ -1,36 +1,49 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
-import { FormValidationService } from '../../services/form-validation/form-validation.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [FormsModule, RouterLink, RouterOutlet, ReactiveFormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
-
 export class RegisterComponent {
-  registerForm!: FormGroup;
-  errorMessage = "";
+  registerForm: FormGroup;
+  errorMessage = '';
 
   private router = inject(Router);
-  private authService = inject(AuthService)
-  private formBuilder = inject(FormBuilder)
-  private validationService = inject(FormValidationService)
+  private authService = inject(AuthService);
+  private formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.registerForm = this.formBuilder.group({
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(10),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
   ngOnInit() {
-    this.authService.authUser$.subscribe((respuesta) => {
+    this.authService.user$.subscribe((respuesta) => {
       if (respuesta != null) {
         this.router.navigateByUrl('');
       }
-    });
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, (control: AbstractControl) => this.validationService.validateEmail(control)]],
-      password: ['', [Validators.required, (control: AbstractControl) => this.validationService.validatePassword(control)]],
-      username: ['', [Validators.required, (control: AbstractControl) => this.validationService.validateUsername(control)]],
     });
   }
 
@@ -42,8 +55,15 @@ export class RegisterComponent {
           this.router.navigateByUrl('');
         },
         error: (err) => {
-          this.errorMessage = err;
-        }
+          const errorMessage = err?.message || '';
+          if (errorMessage.includes('El nombre de usuario ya está en uso')) {
+            this.errorMessage =
+              'Este nombre de usuario ya está registrado. Por favor, elige otro.';
+          } else {
+            this.errorMessage =
+              errorMessage || 'Hubo un problema al registrar el usuario.';
+          }
+        },
       });
     }
   }

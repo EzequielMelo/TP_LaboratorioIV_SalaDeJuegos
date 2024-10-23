@@ -17,10 +17,10 @@
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul
           class="flex flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent hover:bg-gray-700 focus:outline-none focus:ring-gray-800">
-          @if(userName !== null && user !== null) {
+
           <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
             class="flex items-center justify-between w-full py-2 px-3 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 text-white">
-
+            @if(auth == true) {
             <avvvatars
               class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
               value="{{userName}}" />
@@ -30,8 +30,12 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="m1 1 4 4 4-4" />
             </svg>
+            } @else {
+            <a class="text-sm" routerLink="/login">Login</a>
+            }
           </button>
           <div id="dropdownNavbar" class="hidden font-normal bg-gray-800 divide-y rounded-lg shadow w-44 z-50">
+            @if(auth == true) {
             <ul class="py-2 text-sm text-white z-50" aria-labelledby="dropdownLargeButton">
               <li>
                 <button (click)="logOut()"
@@ -39,13 +43,8 @@
                   out</button>
               </li>
             </ul>
+            }
           </div>
-          }@else{
-          <button routerLink="/login"
-            class="text-white dark:text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 hover:bg-gray-700 focus:outline-none focus:ring-gray-800">
-            Login
-          </button>
-          }
         </ul>
       </div>
     </div>

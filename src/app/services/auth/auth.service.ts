@@ -1,68 +1,105 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, Unsubscribe } from '@angular/fire/auth';
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  Unsubscribe,
+  UserCredential,
+  User,
+} from '@angular/fire/auth';
 import { ErrorHandlerService } from '../error-handler/error-handler.service';
-import { from, catchError, throwError, BehaviorSubject, Observable, switchMap } from 'rxjs';
+import {
+  from,
+  catchError,
+  throwError,
+  BehaviorSubject,
+  Observable,
+  switchMap,
+} from 'rxjs';
 import { DatabaseService } from '../database/database.service';
 import { UserClass } from '../../classes/user-class';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private authUserSubject = new BehaviorSubject<User | null>(null);
   public authUser$ = this.authUserSubject.asObservable();
-
-  private userClassSubject = new BehaviorSubject<UserClass | null>(null);
-  public userClass$ = this.userClassSubject.asObservable();
+  private userSubject = new BehaviorSubject<UserClass | null>(null);
+  public user$ = this.userSubject.asObservable();
   authSubscription?: Unsubscribe;
 
-  private auth = inject(Auth)
+  private auth = inject(Auth);
   private errorHandler = inject(ErrorHandlerService);
-  private db = inject(DatabaseService)
+  private db = inject(DatabaseService);
 
   constructor() {
     this.authSubscription = this.auth.onAuthStateChanged((authUser) => {
-      if (authUser?.uid) {
+      if (authUser) {
         this.authUserSubject.next(authUser);
-
-        this.db.getUserData(authUser.uid).subscribe((userData: UserClass | null) => {
-          this.userClassSubject.next(userData);
-        });
+        this.loadUserData(authUser.uid);
       } else {
         this.authUserSubject.next(null);
-        this.userClassSubject.next(null);
+        this.userSubject.next(null);
       }
     });
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      // No necesitas obtener los datos del usuario aquí
       catchError((error) => {
         return throwError(() => this.errorHandler.handleAuthError(error));
       })
     );
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    // Primero, verifica si el nombre de usuario ya existe
+  register(
+    username: string,
+    email: string,
+    password: string
+  ): Observable<void> {
     return this.db.checkUsernameExists(username).pipe(
-      switchMap(exists => {
+      switchMap((exists) => {
         if (exists) {
-          return throwError(() => new Error('El nombre de usuario ya está en uso.'));
+          return throwError(() => ({
+            message: 'El nombre de usuario ya está en uso.',
+          }));
         }
-        return from(createUserWithEmailAndPassword(this.auth, email, password).then((userCredential) => {
-          const uid = userCredential.user.uid;
-          const user: UserClass = {
-            userName: username,
-            userType: 0,
-          };
-          return this.db.addUsers(user, uid);
-        }));
+        return from(
+          createUserWithEmailAndPassword(this.auth, email, password).then(
+            (userCredential) => {
+              const uid = userCredential.user.uid;
+              const user: Partial<UserClass> = {
+                userName: username,
+                userType: 0,
+              };
+              return this.db.addUsers(user, uid);
+            }
+          )
+        );
       }),
       catchError((error) => {
-        return throwError(() => this.errorHandler.handleAuthError(error));
+        const errorMessage = this.errorHandler.handleAuthError(error);
+        return throwError(() => ({ message: errorMessage }));
       })
     );
+  }
+
+  private loadUserData(uid: string): void {
+    this.db.getUserData(uid).subscribe((userData) => {
+      if (userData) {
+        const fullUser = new UserClass(
+          uid,
+          userData.userName,
+          this.authUserSubject.getValue()?.email ?? '', // Obtiene el email desde el observable
+          userData.userType
+        );
+        this.userSubject.next(fullUser); // Actualiza los datos completos del usuario
+      } else {
+        this.userSubject.next(null);
+      }
+    });
   }
 
   logOut() {

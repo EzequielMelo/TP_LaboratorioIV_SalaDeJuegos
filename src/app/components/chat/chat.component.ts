@@ -33,7 +33,7 @@ export class ChatComponent {
       this.chatMessage = resultado as ChatMessage[];
       this.scrollToBottom();
     });
-    this.authService.userClass$.subscribe((userClass: UserClass | null) => {
+    this.authService.user$.subscribe((userClass: UserClass | null) => {
       this.userName = userClass ? userClass.userName : null;
     });
   }
@@ -58,7 +58,7 @@ export class ChatComponent {
     const chatMessage: ChatMessage = {
       user: this.userName,
       message: this.newMessage,
-      time: serverTimestamp()
+      time: serverTimestamp(),
     };
 
     this.db.addChatMsg(chatMessage);
@@ -71,7 +71,8 @@ export class ChatComponent {
   scrollToBottom() {
     if (this.messagesContainer) {
       try {
-        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
       } catch (err) {
         console.error('Error while scrolling:', err);
       }
@@ -80,7 +81,9 @@ export class ChatComponent {
 
   onScroll() {
     const container = this.messagesContainer.nativeElement;
-    this.isAtBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 5; // margen para detectar si está cerca del fondo
+    this.isAtBottom =
+      container.scrollHeight - container.scrollTop <=
+      container.clientHeight + 5; // margen para detectar si está cerca del fondo
   }
 
   trackByMessage(index: number, message: ChatMessage) {

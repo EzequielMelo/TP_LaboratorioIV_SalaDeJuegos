@@ -1,14 +1,14 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiRequestService } from '../../services/api-request/api-request.service';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-preguntados',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './preguntados.component.html',
-  styleUrls: ['./preguntados.component.css']
+  styleUrls: ['./preguntados.component.css'],
 })
 export class PreguntadosComponent implements OnDestroy {
   start: boolean = false;
@@ -24,19 +24,31 @@ export class PreguntadosComponent implements OnDestroy {
   selectedAnswer: string | null = null;
   showNextButton: boolean = false;
   correctAnswer: string | null = null;
-  selectedCategory: { title: string, category: string, image: string } | null = null;
+  selectedCategory: { title: string; category: string; image: string } | null =
+    null;
   remainingTime: number = 30; // Tiempo en segundos (1 minuto y medio)
   intervalId: any = null;
   circleAnimation: string = '';
 
-
   categories = [
-    { title: 'Geografía', category: 'geography', image: "tito.png" },
-    { title: 'Arte y Literatura', category: 'arts&literature', image: "tina.png" },
-    { title: 'Entretenimiento', category: 'entertainment', image: "pop.png" },
-    { title: 'Ciencia y Naturaleza', category: 'science&nature', image: "albert.webp" },
-    { title: 'Deportes y Ocio', category: 'sports&leisure', image: "bonzo.webp" },
-    { title: 'Historia', category: 'history', image: "hector.webp" }
+    { title: 'Geografía', category: 'geography', image: 'tito.webp' },
+    {
+      title: 'Arte y Literatura',
+      category: 'arts&literature',
+      image: 'tina.webp',
+    },
+    { title: 'Entretenimiento', category: 'entertainment', image: 'pop.webp' },
+    {
+      title: 'Ciencia y Naturaleza',
+      category: 'science&nature',
+      image: 'albert.webp',
+    },
+    {
+      title: 'Deportes y Ocio',
+      category: 'sports&leisure',
+      image: 'bonzo.webp',
+    },
+    { title: 'Historia', category: 'history', image: 'hector.webp' },
   ];
 
   private apiRequest = inject(ApiRequestService);
@@ -54,7 +66,11 @@ export class PreguntadosComponent implements OnDestroy {
     this.setCurrentQuestion();
   }
 
-  selectCategory(selectedCategory: { title: string, category: string, image: string }) {
+  selectCategory(selectedCategory: {
+    title: string;
+    category: string;
+    image: string;
+  }) {
     if (this.gameOver) {
       this.lives = 3;
       this.correctAnswers = 0;
@@ -65,15 +81,18 @@ export class PreguntadosComponent implements OnDestroy {
       this.roundOver = false;
     }
     const randomPage = Math.floor(Math.random() * 5) + 1;
-    this.apiRequest.getQuiz(5, randomPage, selectedCategory.category).subscribe((response) => {
-      this.receivedData = response;
-      this.currentQuestionIndex = 0;
-      this.setCurrentQuestion();
-      this.selectedCategory = selectedCategory;
-      this.startTimer();
-    }, (error) => {
-      console.error("Error al obtener datos del quiz:", error);
-    });
+    this.apiRequest.getQuiz(5, randomPage, selectedCategory.category).subscribe(
+      (response) => {
+        this.receivedData = response;
+        this.currentQuestionIndex = 0;
+        this.setCurrentQuestion();
+        this.selectedCategory = selectedCategory;
+        this.startTimer();
+      },
+      (error) => {
+        console.error('Error al obtener datos del quiz:', error);
+      }
+    );
   }
 
   setCurrentQuestion() {
@@ -81,7 +100,8 @@ export class PreguntadosComponent implements OnDestroy {
       return;
     }
     if (this.currentQuestionIndex < this.receivedData.questions.length) {
-      this.currentQuestion = this.receivedData.questions[this.currentQuestionIndex];
+      this.currentQuestion =
+        this.receivedData.questions[this.currentQuestionIndex];
       this.answers = this.getShuffledAnswers(this.currentQuestion);
     } else {
       this.roundOver = true;
@@ -125,11 +145,11 @@ export class PreguntadosComponent implements OnDestroy {
       this.gameOver = true;
       this.roundOver = true;
       Swal.fire({
-        position: "center",
-        icon: "error",
-        html: "Perdiste! Te quedaste sin vidas.",
+        position: 'center',
+        icon: 'error',
+        html: 'Perdiste! Te quedaste sin vidas.',
         showConfirmButton: true,
-        timer: 2000
+        timer: 2000,
       });
     } else {
       this.setCurrentQuestion();
@@ -165,7 +185,7 @@ export class PreguntadosComponent implements OnDestroy {
       this.updateCircleAnimation();
 
       if (this.remainingTime <= 0) {
-        this.checkAnswer("no-responsed");
+        this.checkAnswer('no-responsed');
       }
     }, 1000);
   }

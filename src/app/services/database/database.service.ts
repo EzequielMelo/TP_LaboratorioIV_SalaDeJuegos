@@ -7,54 +7,61 @@ import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { from, map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DatabaseService {
   private firestore = inject(AngularFirestore);
   private fire = inject(Firestore);
 
-  constructor() { }
+  constructor() {}
 
-  addUsers(user: UserClass, colID: string) {
+  addUsers(user: Partial<UserClass>, colID: string) {
     const userDocRef = doc(this.fire, `users/${colID}`);
     setDoc(userDocRef, user);
   }
 
   getUser() {
-    const usersColl = this.firestore.collection("users");
-    usersColl.get
+    const usersColl = this.firestore.collection('users');
+    usersColl.get;
   }
 
   checkUsernameExists(username: string): Observable<boolean> {
-    return this.firestore.collection('users', ref => ref.where('userName', '==', username))
+    return this.firestore
+      .collection('users', (ref) => ref.where('userName', '==', username))
       .get()
-      .pipe(
-        map(snapshot => !snapshot.empty) // Devuelve true si existe, false si no
-      );
+      .pipe(map((snapshot) => !snapshot.empty));
   }
 
   getUserData(uid: string): Observable<UserClass | null> {
     const userDocRef = doc(this.fire, `users/${uid}`);
-    return from(getDoc(userDocRef).then(docSnapshot => {
-      if (docSnapshot.exists()) {
-        return docSnapshot.data() as UserClass;
-      }
-      return null;
-    }));
+    return from(
+      getDoc(userDocRef).then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          return new UserClass(
+            uid,
+            data['userName'],
+            data['email'],
+            data['userType']
+          );
+        }
+        return null;
+      })
+    );
   }
 
   addChatMsg(chatMessage: ChatMessage) {
-    const chatMessageColl = this.firestore.collection("chat");
+    const chatMessageColl = this.firestore.collection('chat');
     chatMessageColl.add({
       ...chatMessage,
-      time: serverTimestamp()
+      time: serverTimestamp(),
     });
   }
 
-  getChatMsgs() {
-    const ChatMessageColl = this.firestore.collection("chat", ref =>
+  getChatMsgs(): Observable<Partial<ChatMessage>[]> {
+    const ChatMessageColl = this.firestore.collection('chat', (ref) =>
       ref.orderBy('time', 'asc').limit(100)
     );
-    return ChatMessageColl.valueChanges();
+    return ChatMessageColl.valueChanges() as Observable<Partial<ChatMessage>[]>;
   }
 }

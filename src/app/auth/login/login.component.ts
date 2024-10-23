@@ -1,35 +1,41 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
-import { FormValidationService } from '../../services/form-validation/form-validation.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule, RouterLink, RouterOutlet, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
-
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  errorMessage = "";
+  loginForm: FormGroup;
+  errorMessage = '';
 
-  private authService = inject(AuthService)
-  private formBuilder = inject(FormBuilder)
-  private validationService = inject(FormValidationService)
+  private authService = inject(AuthService);
+  private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
+  constructor() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
   ngOnInit() {
-    this.authService.authUser$.subscribe((respuesta) => {
+    this.authService.user$.subscribe((respuesta) => {
       if (respuesta != null) {
         this.router.navigateByUrl('');
       }
-    });
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, (control: AbstractControl) => this.validationService.validateEmail(control)]],
-      password: ['', [Validators.required, (control: AbstractControl) => this.validationService.validatePassword(control)]]
     });
   }
 
@@ -42,7 +48,7 @@ export class LoginComponent implements OnInit {
         },
         error: (errorMessage: string) => {
           this.errorMessage = errorMessage;
-        }
+        },
       });
     }
   }
@@ -50,7 +56,7 @@ export class LoginComponent implements OnInit {
   usuarioPrueba() {
     this.loginForm.patchValue({
       email: 'ezzmellow@hotmail.com',
-      password: '123456'
+      password: '123456',
     });
   }
 }

@@ -9,20 +9,35 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, GameComponent, CarouselComponent, CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
-
   carouselGames = [
-    { name: 'Preguntados', image: 'preguntados-home.jpg', url: '/preguntados' },
-    { name: 'Ahorcado', image: 'hangmancarousel.jpg', url: '/ahorcado' },
-    { name: 'Mayor o Menor', image: 'higherorlower.jpg', url: '/mayor-o-menor' },
+    {
+      name: 'Preguntados',
+      image: 'preguntados-home.webp',
+      url: '/preguntados',
+    },
+    { name: 'Ahorcado', image: 'hangmancarousel.webp', url: '/ahorcado' },
+    {
+      name: 'Mayor o Menor',
+      image: 'higherorlower.webp',
+      url: '/mayor-o-menor',
+    },
   ];
 
   games = [
-    { name: 'Ahorcado', image: 'ahorcado2.jpg', url: '/ahorcado' },
-    { name: 'Mayor o Menor', image: 'mayoromenor2.jpg', url: '/mayor-o-menor' },
-    { name: 'Preguntados', image: 'preguntados.jpeg', url: '/preguntados' },
-    { name: 'Arma las Palabras', image: 'arma-las-palabras.jpg', url: '/arma-las-palabras' },
+    { name: 'Ahorcado', image: 'ahorcado2.webp', url: '/ahorcado' },
+    {
+      name: 'Mayor o Menor',
+      image: 'mayoromenor2.webp',
+      url: '/mayor-o-menor',
+    },
+    { name: 'Preguntados', image: 'preguntados.webp', url: '/preguntados' },
+    {
+      name: 'Arma las Palabras',
+      image: 'arma-las-palabras.webp',
+      url: '/arma-las-palabras',
+    },
   ];
 }

@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AvvvatarsComponent } from '@ngxpert/avvvatars';
 import { initFlowbite } from 'flowbite';
+import { UserClass } from '../../classes/user-class';
 
 @Component({
   selector: 'app-navbar',
@@ -11,20 +12,23 @@ import { initFlowbite } from 'flowbite';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-
 export class NavbarComponent {
-  user: any = null;
   userName: any = null;
+  auth: boolean = false;
   protected authService = inject(AuthService);
 
-  ngOnInit() {
-    this.authService.authUser$.subscribe(user => {
-      this.user = user;
+  constructor() {
+    this.authService.authUser$.subscribe((response) => {
+      if (response) {
+        this.auth = true;
+      } else {
+        this.auth = false;
+      }
     });
-    this.authService.userClass$.subscribe(user => {
-      this.userName = user?.userName;
+    this.authService.user$.subscribe((userClass: UserClass | null) => {
+      this.userName = userClass ? userClass.userName : null;
     });
-  };
+  }
 
   ngAfterViewInit(): void {
     initFlowbite();
@@ -32,5 +36,5 @@ export class NavbarComponent {
 
   logOut() {
     this.authService.logOut();
-  };
+  }
 }

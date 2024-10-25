@@ -5,11 +5,17 @@ import { Question } from './../../models/question.interface';
 import { QuizResponse } from '../../models/quiz-response.interface';
 import { Category } from '../../models/category.interface';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth/auth.service';
+import { DatabaseService } from '../../services/database/database.service';
+import { UserClass } from '../../classes/user-class';
+import { Subscription } from 'rxjs';
+import { RankingClass } from '../../classes/ranking-class';
+import { RankingComponent } from '../../components/ranking/ranking.component';
 
 @Component({
   selector: 'app-preguntados',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RankingComponent],
   templateUrl: './preguntados.component.html',
   styleUrls: ['./preguntados.component.css'],
 })
@@ -31,6 +37,10 @@ export class PreguntadosComponent implements OnDestroy {
   remainingTime: number = 30;
   intervalId: ReturnType<typeof setInterval> | null = null;
   circleAnimation: string = '';
+  userName: string | null = null;
+  userId: string | null = null;
+  subscription: Subscription | null = null;
+  ranking: RankingClass[] | null = null;
 
   categories: Category[] = [
     { title: 'Geografía', category: 'geography', image: 'tito.webp' },
@@ -53,12 +63,22 @@ export class PreguntadosComponent implements OnDestroy {
     { title: 'Historia', category: 'history', image: 'hector.webp' },
   ];
 
+  protected authService = inject(AuthService);
   private apiRequest = inject(ApiRequestService);
+  private db = inject(DatabaseService);
 
   constructor() {
     this.receivedData = { questions: [] };
     this.updateHearts();
     this.updateCircleAnimation();
+    this.authService.user$.subscribe((userClass: UserClass | null) => {
+      this.userName = userClass ? userClass.userName : null;
+      this.userId = userClass ? userClass.id : null;
+    });
+    const observable = this.db.getHigherScores('preguntados');
+    this.subscription = observable.subscribe((resultado) => {
+      this.ranking = resultado as RankingClass[];
+    });
   }
 
   startGame() {
@@ -151,6 +171,7 @@ export class PreguntadosComponent implements OnDestroy {
         showConfirmButton: true,
         timer: 2000,
       });
+      this.addToRanking();
     } else {
       this.setCurrentQuestion();
       this.startTimer();
@@ -205,5 +226,15 @@ export class PreguntadosComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.stopTimer();
+  }
+
+  addToRanking() {
+    if (this.userId) {
+      const ranking: Partial<RankingClass> = {
+        user: this.userName,
+        score: this.correctAnswers,
+      };
+      this.db.addToRankingIfHigherScore(ranking, 'preguntados', this.userId);
+    }
   }
 }

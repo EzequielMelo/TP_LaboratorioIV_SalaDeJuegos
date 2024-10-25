@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Card } from './../../models/card.interface';
 import Swal from 'sweetalert2';
 import Atropos from 'atropos';
 import 'atropos/css';
+import { Subscription } from 'rxjs';
+import { RankingClass } from '../../classes/ranking-class';
+import { AuthService } from '../../services/auth/auth.service';
+import { DatabaseService } from '../../services/database/database.service';
+import { RankingComponent } from '../../components/ranking/ranking.component';
+import { UserClass } from '../../classes/user-class';
 
 @Component({
   selector: 'app-mayor-o-menor',
   standalone: true,
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, RankingComponent],
   templateUrl: './mayor-o-menor.component.html',
   styleUrl: './mayor-o-menor.component.css',
 })
@@ -21,6 +27,10 @@ export class MayorOMenorComponent {
   gameOver: boolean = false;
   successes: number = 0;
   nextCardImageLoaded: boolean = false;
+  userName: string | null = null;
+  userId: string | null = null;
+  subscription: Subscription | null = null;
+  ranking: RankingClass[] | null = null;
 
   cards: Card[] = [
     { id: 'hearts-A', image: 'Hearts-A.webp', valor: 1 },
@@ -81,6 +91,19 @@ export class MayorOMenorComponent {
   ];
 
   private atroposInitialized = false;
+  protected authService = inject(AuthService);
+  private db = inject(DatabaseService);
+
+  constructor() {
+    this.authService.user$.subscribe((userClass: UserClass | null) => {
+      this.userName = userClass ? userClass.userName : null;
+      this.userId = userClass ? userClass.id : null;
+    });
+    const observable = this.db.getHigherScores('mayor-o-menor');
+    this.subscription = observable.subscribe((resultado) => {
+      this.ranking = resultado as RankingClass[];
+    });
+  }
 
   startGame() {
     this.lives = 3;
@@ -135,6 +158,7 @@ export class MayorOMenorComponent {
       } else {
         this.loseLife();
         if (this.lives === 0) {
+          this.addToRanking();
           this.endGame();
         }
       }
@@ -187,6 +211,16 @@ export class MayorOMenorComponent {
     if (this.lives > 0) {
       this.lives--;
       this.updateHearts();
+    }
+  }
+
+  addToRanking() {
+    if (this.userId) {
+      const ranking: Partial<RankingClass> = {
+        user: this.userName,
+        score: this.successes,
+      };
+      this.db.addToRankingIfHigherScore(ranking, 'mayor-o-menor', this.userId);
     }
   }
 }

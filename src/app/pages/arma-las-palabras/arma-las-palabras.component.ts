@@ -1,12 +1,18 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Game } from './../../models/game.interface';
 import Swal from 'sweetalert2';
+import { RankingClass } from '../../classes/ranking-class';
+import { Subscription } from 'rxjs';
+import { UserClass } from '../../classes/user-class';
+import { AuthService } from '../../services/auth/auth.service';
+import { DatabaseService } from '../../services/database/database.service';
+import { RankingComponent } from '../../components/ranking/ranking.component';
 
 @Component({
   selector: 'app-arma-las-palabras',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RankingComponent],
   templateUrl: './arma-las-palabras.component.html',
   styleUrls: ['./arma-las-palabras.component.css'],
 })
@@ -25,6 +31,10 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
   circleAnimation: string = '';
   lives: number = 3;
   hearts: string[] = [];
+  userName: string | null = null;
+  userId: string | null = null;
+  subscription: Subscription | null = null;
+  ranking: RankingClass[] | null = null;
 
   possibleGames: Game[] = [
     {
@@ -73,9 +83,20 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
     },
   ];
 
+  protected authService = inject(AuthService);
+  private db = inject(DatabaseService);
+
   constructor() {
     this.updateCircleAnimation();
     this.updateHearts();
+    this.authService.user$.subscribe((userClass: UserClass | null) => {
+      this.userName = userClass ? userClass.userName : null;
+      this.userId = userClass ? userClass.id : null;
+    });
+    const observable = this.db.getHigherScores('arma-palabras');
+    this.subscription = observable.subscribe((resultado) => {
+      this.ranking = resultado as RankingClass[];
+    });
   }
 
   startGame() {
@@ -172,6 +193,7 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
         }
       });
     } else {
+      this.addToRanking();
       Swal.fire({
         title: 'Juego Finalizado',
         html:
@@ -218,6 +240,16 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
   ngOnDestroy() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+    }
+  }
+
+  addToRanking() {
+    if (this.userId) {
+      const ranking: Partial<RankingClass> = {
+        user: this.userName,
+        score: this.correctWordsCounter,
+      };
+      this.db.addToRankingIfHigherScore(ranking, 'arma-palabras', this.userId);
     }
   }
 }

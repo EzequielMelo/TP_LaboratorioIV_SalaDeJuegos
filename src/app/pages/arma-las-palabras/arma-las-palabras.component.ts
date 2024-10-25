@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Game } from './../../models/game.interface';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,14 +19,14 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
   correctWordsCounter: number = 0;
   numberOfCorrectWords: number = 0;
   errorMessage: string = '';
-  currentGame: any = null;
+  currentGame: Game | null = null;
   remainingTime: number = 90;
-  intervalId: any = null;
+  intervalId: ReturnType<typeof setInterval> | null = null;
   circleAnimation: string = '';
   lives: number = 3;
   hearts: string[] = [];
 
-  possibleGames = [
+  possibleGames: Game[] = [
     {
       letters: ['a', 'e', 'r', 'p', 't', 'u'],
       words: [
@@ -136,7 +137,9 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
       'Ronda terminada!<br>Conseguiste armar las: <strong>' +
       this.correctWords.length +
       '</strong> palabras correctas';
-    clearInterval(this.intervalId);
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+    }
     if (this.numberOfCorrectWords !== 0) {
       this.loseLife();
       message =

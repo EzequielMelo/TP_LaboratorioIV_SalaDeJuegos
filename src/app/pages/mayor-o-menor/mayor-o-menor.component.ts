@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { Card } from './../../models/card.interface';
 import Swal from 'sweetalert2';
 import Atropos from 'atropos';
 import 'atropos/css';
@@ -13,15 +14,15 @@ import 'atropos/css';
 })
 export class MayorOMenorComponent {
   start: boolean = false;
-  currentCard: any;
-  nextCard: any;
+  currentCard: Card | null = null; // Ahora es de tipo Card
+  nextCard: Card | null = null;
   lives: number = 3;
   hearts: string[] = [];
   gameOver: boolean = false;
   successes: number = 0;
-  nextCardImageLoaded: boolean = false; // Nueva variable para controlar si la imagen está cargada
+  nextCardImageLoaded: boolean = false;
 
-  cards = [
+  cards: Card[] = [
     { id: 'hearts-A', image: 'Hearts-A.webp', valor: 1 },
     { id: 'hearts-2', image: 'Hearts-2.webp', valor: 2 },
     { id: 'hearts-3', image: 'Hearts-3.webp', valor: 3 },
@@ -123,18 +124,22 @@ export class MayorOMenorComponent {
   }
 
   checkGuess(userGuess: string) {
-    const comparison =
-      this.nextCard.valor > this.currentCard.valor ? 'mayor' : 'menor';
+    if (this.currentCard && this.nextCard) {
+      const comparison =
+        this.nextCard.valor > this.currentCard.valor ? 'mayor' : 'menor';
 
-    if (userGuess === comparison) {
-      this.currentCard = this.nextCard;
-      this.loadNextCard(); // Precargar la siguiente carta nuevamente
-      this.successes += 1;
-    } else {
-      this.loseLife();
-      if (this.lives === 0) {
-        this.endGame();
+      if (userGuess === comparison) {
+        this.currentCard = this.nextCard;
+        this.loadNextCard();
+        this.successes += 1;
+      } else {
+        this.loseLife();
+        if (this.lives === 0) {
+          this.endGame();
+        }
       }
+    } else {
+      console.error('No hay cartas disponibles para comparar.');
     }
   }
 

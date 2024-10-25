@@ -19,7 +19,7 @@ export class ChatComponent {
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   isChatOpen = false;
   newMessage = '';
-  chatMessage: any[] = [];
+  chatMessage: ChatMessage[] = [];
   subscription: Subscription | null = null;
   userName: string | null = null;
   private isAtBottom: boolean = true;
@@ -55,16 +55,17 @@ export class ChatComponent {
   sendMessage() {
     if (this.newMessage.trim() === '') return;
 
-    const chatMessage: ChatMessage = {
+    const chatMessage: Partial<ChatMessage> = {
       user: this.userName,
       message: this.newMessage,
-      time: serverTimestamp(),
     };
 
     this.db.addChatMsg(chatMessage);
+
     if (this.isAtBottom) {
       this.scrollToBottom();
     }
+
     this.newMessage = '';
   }
 

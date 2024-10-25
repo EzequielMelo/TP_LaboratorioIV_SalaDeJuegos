@@ -50,7 +50,7 @@ export class DatabaseService {
     );
   }
 
-  addChatMsg(chatMessage: ChatMessage) {
+  addChatMsg(chatMessage: Partial<ChatMessage>) {
     const chatMessageColl = this.firestore.collection('chat');
     chatMessageColl.add({
       ...chatMessage,

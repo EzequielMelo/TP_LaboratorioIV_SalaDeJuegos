@@ -1,6 +1,9 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiRequestService } from '../../services/api-request/api-request.service';
+import { Question } from './../../models/question.interface';
+import { QuizResponse } from '../../models/quiz-response.interface';
+import { Category } from '../../models/category.interface';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,9 +15,9 @@ import Swal from 'sweetalert2';
 })
 export class PreguntadosComponent implements OnDestroy {
   start: boolean = false;
-  receivedData: any = {};
+  receivedData: QuizResponse = { questions: [] };
   currentQuestionIndex: number = 0;
-  currentQuestion: any;
+  currentQuestion: Question | null = null;
   answers: string[] = [];
   lives: number = 3;
   hearts: string[] = [];
@@ -24,13 +27,12 @@ export class PreguntadosComponent implements OnDestroy {
   selectedAnswer: string | null = null;
   showNextButton: boolean = false;
   correctAnswer: string | null = null;
-  selectedCategory: { title: string; category: string; image: string } | null =
-    null;
-  remainingTime: number = 30; // Tiempo en segundos (1 minuto y medio)
-  intervalId: any = null;
+  selectedCategory: Category | null = null;
+  remainingTime: number = 30;
+  intervalId: ReturnType<typeof setInterval> | null = null;
   circleAnimation: string = '';
 
-  categories = [
+  categories: Category[] = [
     { title: 'Geografía', category: 'geography', image: 'tito.webp' },
     {
       title: 'Arte y Literatura',
@@ -66,11 +68,7 @@ export class PreguntadosComponent implements OnDestroy {
     this.setCurrentQuestion();
   }
 
-  selectCategory(selectedCategory: {
-    title: string;
-    category: string;
-    image: string;
-  }) {
+  selectCategory(selectedCategory: Category) {
     if (this.gameOver) {
       this.lives = 3;
       this.correctAnswers = 0;
@@ -82,7 +80,7 @@ export class PreguntadosComponent implements OnDestroy {
     }
     const randomPage = Math.floor(Math.random() * 5) + 1;
     this.apiRequest.getQuiz(5, randomPage, selectedCategory.category).subscribe(
-      (response) => {
+      (response: QuizResponse) => {
         this.receivedData = response;
         this.currentQuestionIndex = 0;
         this.setCurrentQuestion();
@@ -108,7 +106,7 @@ export class PreguntadosComponent implements OnDestroy {
     }
   }
 
-  getShuffledAnswers(question: any): string[] {
+  getShuffledAnswers(question: Question): string[] {
     const answers = [question.correctAnswers, ...question.incorrectAnswers];
     return this.shuffleArray(answers);
   }
@@ -123,7 +121,9 @@ export class PreguntadosComponent implements OnDestroy {
 
   checkAnswer(selectedAnswer: string) {
     this.selectedAnswer = selectedAnswer;
-    this.correctAnswer = this.currentQuestion.correctAnswers;
+    this.correctAnswer = this.currentQuestion
+      ? this.currentQuestion.correctAnswers
+      : null;
     this.stopTimer();
 
     if (selectedAnswer === this.correctAnswer) {

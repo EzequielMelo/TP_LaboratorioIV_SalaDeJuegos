@@ -1,0 +1,33 @@
+<div class="relative overflow-x-auto">
+  <h2 class="text-2xl font-semibold mb-2 text-white">Ranking de jugadores:</h2>
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          Usuario
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Puntaje
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Fecha
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of ranking; track $index) {
+      <tr class="border-b bg-gray-800 border-gray-700">
+        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
+          {{item.user}}
+        </th>
+        <td class="px-6 py-4 text-end">
+          {{item.score}}
+        </td>
+        <td class="px-6 py-4">
+          {{item.time ? (item.time.toDate() | date:'dd/MM/yyyy') : ''}}
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

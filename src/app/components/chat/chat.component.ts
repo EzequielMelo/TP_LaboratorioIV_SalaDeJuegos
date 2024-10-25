@@ -5,7 +5,6 @@ import { DatabaseService } from '../../services/database/database.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
-import { serverTimestamp } from '@angular/fire/firestore';
 import { UserClass } from '../../classes/user-class';
 
 @Component({

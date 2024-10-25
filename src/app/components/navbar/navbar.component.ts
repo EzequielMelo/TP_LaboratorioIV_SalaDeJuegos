@@ -13,7 +13,7 @@ import { UserClass } from '../../classes/user-class';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  userName: any = null;
+  userName: string | null = null;
   auth: boolean = false;
   protected authService = inject(AuthService);
 

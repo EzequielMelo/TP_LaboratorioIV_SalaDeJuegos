@@ -3,8 +3,15 @@ import { Injectable, inject } from '@angular/core';
 import { UserClass } from '../../classes/user-class';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { serverTimestamp } from '@angular/fire/firestore';
-import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  setDoc,
+  getDoc,
+  runTransaction,
+} from '@angular/fire/firestore';
 import { from, map, Observable } from 'rxjs';
+import { RankingClass } from '../../classes/ranking-class';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +70,49 @@ export class DatabaseService {
       ref.orderBy('time', 'asc').limit(100)
     );
     return ChatMessageColl.valueChanges() as Observable<Partial<ChatMessage>[]>;
+  }
+
+  async addToRankingIfHigherScore(
+    rankingData: Partial<RankingClass>,
+    game: string,
+    uid: string
+  ) {
+    const rankingDocRef = doc(this.fire, `ranking-${game}/${uid}`);
+
+    try {
+      await runTransaction(this.fire, async (transaction) => {
+        const rankingDoc = await transaction.get(rankingDocRef);
+
+        if (rankingDoc.exists()) {
+          const currentScore = rankingDoc.data()['score'];
+          if (rankingData.score && rankingData.score > currentScore) {
+            transaction.set(
+              rankingDocRef,
+              {
+                ...rankingData,
+                time: serverTimestamp(),
+              },
+              { merge: true }
+            );
+          }
+        } else {
+          transaction.set(rankingDocRef, {
+            ...rankingData,
+            time: serverTimestamp(),
+          });
+        }
+      });
+      console.log('Documento actualizado o agregado exitosamente');
+    } catch (error) {
+      console.error('Error en la transacción:', error);
+    }
+  }
+
+  getHigherScores(game: string): Observable<RankingClass[]> {
+    const rankingColl = this.firestore.collection<RankingClass>(
+      `ranking-${game}`,
+      (ref) => ref.orderBy('score', 'asc').limit(20)
+    );
+    return rankingColl.valueChanges();
   }
 }

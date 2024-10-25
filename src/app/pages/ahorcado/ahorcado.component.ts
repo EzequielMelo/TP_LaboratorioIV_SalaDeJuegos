@@ -89,7 +89,6 @@ export class AhorcadoComponent {
       this.receivedData = response.toLocaleString().toUpperCase();
       this.start = true;
       this.displayedWord = Array(this.receivedData.length).fill('_');
-      console.log(this.receivedData);
       this.errors = 0;
       this.hangmanImage = 'hangman0.webp';
       this.selectedLetters = [];

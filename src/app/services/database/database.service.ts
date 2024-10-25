@@ -102,7 +102,6 @@ export class DatabaseService {
           });
         }
       });
-      console.log('Documento actualizado o agregado exitosamente');
     } catch (error) {
       console.error('Error en la transacción:', error);
     }
@@ -111,7 +110,7 @@ export class DatabaseService {
   getHigherScores(game: string): Observable<RankingClass[]> {
     const rankingColl = this.firestore.collection<RankingClass>(
       `ranking-${game}`,
-      (ref) => ref.orderBy('score', 'asc').limit(20)
+      (ref) => ref.orderBy('score', 'desc').limit(20)
     );
     return rankingColl.valueChanges();
   }

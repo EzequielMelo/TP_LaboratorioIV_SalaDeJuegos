@@ -67,6 +67,7 @@ export class ArmaLasPalabrasComponent implements OnDestroy {
         'bar',
         'era',
         'ares',
+        'estar',
       ],
     },
     {

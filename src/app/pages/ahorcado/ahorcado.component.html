@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
+  class="flex flex-col items-center min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
   <div class="flex items-center justify-center mx-auto mt-10 h-auto lg:py-0 w-full">
     <div
       class="flex flex-col justify-center items-center bg-rayada w-11/12 sm:w-11/12 md:w-2/3 min-h-[80vh] md:h-[80vh] z-51 shadow-lg rounded-md">
@@ -32,7 +32,24 @@
       }
     </div>
   </div>
-  <div class="flex items-center justify-center mt-14 mb-14">
-    <app-ranking [ranking]="ranking"></app-ranking>
+  <div class="flex flex-col md:flex-row mt-14 mb-14 w-11/12 sm:w-11/12 md:w-2/3 bg-black bg-opacity-40 rounded-md">
+    <div class="md:w-[60%] p-4 text-white text-balance">
+      <h2 class="text-2xl font-semibold pb-2">Explicacion del juego:</h2>
+      <p><strong>Ahorcado:</strong> ¡Pon a prueba tus habilidades de vocabulario y ortografía en este clásico juego!
+        Intenta adivinar la
+        palabra oculta letra por letra. Cada intento fallido acerca al personaje al final de la cuerda, pero con cada
+        acierto, revelarás una parte de la palabra. ¿Cuántas palabras podrás descubrir antes de quedarte sin
+        vidas?<br><br>
+        En nuestra versión del clásico juego de ahorcado, el jugador comienza con 3 corazones, que
+        representan sus
+        vidas. Cada corazón solo se pierde si el jugador no logra completar la palabra antes de que el dibujo del
+        personaje en la soga esté terminado. Si el jugador adivina correctamente la palabra antes de completar el
+        dibujo, gana un punto y conserva sus vidas restantes para el siguiente intento. <br><br>
+
+        El juego continúa con este sistema de recompensas y penalizaciones hasta que el jugador se queda sin corazones,
+        momento en el cual la partida termina. Al finalizar, el puntaje acumulado se guarda y el jugador tiene la
+        oportunidad de figurar en el ranking de los mejores 10 jugadores, compitiendo por los primeros lugares.</p>
+    </div>
+    <app-ranking class="md:w-[40%] p-4 text-white" [ranking]="ranking"></app-ranking>
   </div>
 </div>

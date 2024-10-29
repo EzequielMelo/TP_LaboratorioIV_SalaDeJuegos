@@ -97,7 +97,6 @@ export class AhorcadoComponent {
         (letter) => (this.letterStatus[letter] = 'not-selected')
       );
     });
-    console.log(this.ranking);
   }
 
   normalizeText(text: string): string {

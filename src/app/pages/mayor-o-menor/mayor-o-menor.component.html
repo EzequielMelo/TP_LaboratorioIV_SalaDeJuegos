@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
+  class="flex flex-col items-center min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
   <div class="flex items-center justify-center mx-auto mt-10 h-auto lg:py-0 w-full">
     <div
       class="flex flex-col justify-center items-center w-11/12 sm:w-11/12 md:w-2/3 min-h-[70vh] md:h-[70vh] z-51 shadow-lg rounded-md bg-game">
@@ -43,7 +43,38 @@
       }
     </div>
   </div>
-  <div class="flex items-center justify-center mt-14 mb-14">
-    <app-ranking [ranking]="ranking"></app-ranking>
+  <div class="flex flex-col md:flex-row mt-14 mb-14 w-11/12 sm:w-11/12 md:w-2/3 bg-black bg-opacity-40 rounded-md">
+    <div class="md:w-[60%] p-4 text-white text-balance">
+      <h2 class="text-2xl font-semibold pb-2">Explicacion del juego:</h2>
+      <p><strong>Mayor o Menor:</strong> es un juego de predicción simple y entretenido que desafía al jugador a
+        anticipar el valor de la próxima carta. Perfecto para entrenar la intuición y probar suerte, el juego cuenta con
+        un diseño accesible que lo hace ideal tanto para partidas rápidas como para quienes buscan mejorar su posición
+        en el ranking de los mejores jugadores.<br><br>
+        En esta versión, se usa un mazo con cartas del As ("A") al Rey ("K"). El juego comienza presentando una carta
+        inicial, junto a dos opciones: un botón de "Mayor" y otro de "Menor". El jugador debe adivinar si la próxima
+        carta mostrada será de mayor o menor valor que la actual. Cada partida se inicia con tres corazones (vidas).
+        <br><br>
+      </p>
+      <ul class="list-disc px-4 text-pretty">
+        <li>
+          <strong>Aciertos:</strong> Cada vez que el jugador adivina correctamente, suma un punto y la partida continúa.
+        </li>
+        <li>
+          <strong>Errores:</strong> Si el jugador falla, pierde un corazón.
+        </li>
+        <li>
+          <strong>Fin de la Partida:</strong> La partida finaliza cuando el jugador pierde los tres corazones. En ese
+          momento, el puntaje
+          obtenido se guarda y se compara en un ranking, donde se registran los 10 mejores puntajes logrados por los
+          jugadores.
+        </li>
+      </ul><br>
+
+      <p>El juego continúa con este sistema de recompensas y penalizaciones hasta que el jugador se queda sin corazones,
+        momento en el cual la partida termina. Al finalizar, el puntaje acumulado se guarda y el jugador tiene la
+        oportunidad de figurar en el ranking de los mejores 10 jugadores, compitiendo por los primeros lugares.</p>
+
+    </div>
+    <app-ranking class="md:w-[40%] p-4 text-white" [ranking]="ranking"></app-ranking>
   </div>
 </div>

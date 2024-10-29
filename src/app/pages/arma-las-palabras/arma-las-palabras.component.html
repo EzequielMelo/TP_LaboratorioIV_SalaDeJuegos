@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
+  class="flex flex-col items-center  min-h-screen bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900">
   <div class="flex items-center justify-center mx-auto mt-10 h-auto lg:py-0 w-full">
     <div
       class="flex flex-col justify-center items-center bg-rayada w-11/12 sm:w-11/12 md:w-2/3 min-h-[80vh] md:h-[80vh] z-51 shadow-lg rounded-md">
@@ -66,7 +66,37 @@
       }
     </div>
   </div>
-  <div class="flex items-center justify-center mt-14 mb-14">
-    <app-ranking [ranking]="ranking"></app-ranking>
+  <div class="flex flex-col md:flex-row mt-14 mb-14 w-11/12 sm:w-11/12 md:w-2/3 bg-black bg-opacity-40 rounded-md">
+    <div class="md:w-[60%] p-4 text-white text-balance">
+      <h2 class="text-2xl font-semibold pb-2">Explicacion del juego:</h2>
+      <p><strong>Arma las Palabras:</strong> es un juego de agilidad mental y vocabulario donde el jugador debe formar
+        el máximo número posible de palabras utilizando un conjunto de letras proporcionado. Con cada partida, el
+        desafío es descubrir todas las combinaciones posibles antes de quedarse sin corazones, acumulando puntos y
+        compitiendo para entrar en el ranking de los mejores jugadores.
+        <br><br>
+        En Arma las Palabras, el jugador comienza con una serie de letras en pantalla y debe crear todas las palabras
+        posibles que puedan formarse con estas letras.
+        <br><br>
+      </p>
+      <ul class="list-disc px-4 text-pretty">
+        <li>
+          <strong>Aciertos:</strong> Por cada palabra armada correctamente, el jugador suma un punto. Si el jugador
+          consigue formar todas las palabras disponibles en una ronda, mantiene sus 3 corazones intactos y continúa a la
+          siguiente serie.
+        </li>
+        <li>
+          <strong>Errores:</strong> Si el jugador no logra armar todas las palabras en una ronda, mantiene los puntos de
+          las palabras que formó, pero pierde un corazón.
+        </li>
+        <li>
+          <strong>Fin de la Partida:</strong> El juego continúa hasta que el jugador pierde los 3 corazones. Al quedarse
+          sin corazones, el puntaje final se registra en el ranking, donde solo los 10 mejores puntajes se muestran.
+        </li>
+      </ul><br>
+
+      <p>Arma las Palabras desafía la rapidez y habilidad del jugador para encontrar palabras, lo que hace que cada
+        partida sea emocionante y estratégica, con el incentivo de mejorar la posición en el ranking.</p>
+    </div>
+    <app-ranking class="md:w-[40%] p-4 text-white" [ranking]="ranking"></app-ranking>
   </div>
 </div>
